@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('pharmocology_aspects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('plant_id')->constrained()->cascadeOnDelete();
-            $table->text('toxicity');
-            $table->text('contraindications');
-            $table->text('warnings');
-            $table->text('precautions');
-            $table->text('side_effects');
+            $table->text('toxicity')->nullable();
+            $table->text('contraindications')->nullable();
+            $table->text('warnings')->nullable();
+            $table->text('precautions')->nullable();
+            $table->text('side_effects')->nullable();
             $table->timestamps();
         });
     }

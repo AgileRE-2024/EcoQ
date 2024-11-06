@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('garden_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('common_name');
-            $table->string('scientific_name');
-            $table->text('description');
-            $table->string('habitat');
-            $table->string('chemical_compounds');
-            $table->string('qr_image');
-            $table->string('image');
+            $table->string('common_name')->nullable();
+            $table->string('scientific_name')->nullable();
+            $table->text('description')->nullable();
+            $table->string('habitat')->nullable();
+            $table->string('chemical_compounds')->nullable();
+            $table->string('qr_image')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

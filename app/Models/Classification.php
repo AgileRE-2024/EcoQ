@@ -19,7 +19,7 @@ class Classification extends Model
      */
     protected $fillable = [
         'kingdom',
-        'phylum',
+        'division',
         'class',
         'order',
         'family',

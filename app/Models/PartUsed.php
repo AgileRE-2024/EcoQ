@@ -10,7 +10,7 @@ class PartUsed extends Model
     /** @use HasFactory<\Database\Factories\PartUsedFactory> */
     use HasFactory;
 
-    protected $table = 'part_used';
+    protected $table = 'part_useds';
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +19,7 @@ class PartUsed extends Model
      */
     protected $fillable = [
         'part',
-        'usege',
+        'usage',
         'plant_id',
     ];
 

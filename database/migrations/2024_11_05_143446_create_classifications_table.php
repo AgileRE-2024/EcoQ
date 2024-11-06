@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('classifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('plant_id')->constrained()->cascadeOnDelete();
-            $table->string('kingdom');
-            $table->string('division');
-            $table->string('class');
-            $table->string('order');
-            $table->string('family');
-            $table->string('genus');
-            $table->string('species');
+            $table->string('kingdom')->nullable();
+            $table->string('division')->nullable();
+            $table->string('class')->nullable();
+            $table->string('order')->nullable();
+            $table->string('family')->nullable();
+            $table->string('genus')->nullable();
+            $table->string('species')->nullable();
             $table->timestamps();
         });
     }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('part_useds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('plant_id')->constrained()->cascadeOnDelete();
-            $table->string('part');
-            $table->string('usege');
+            $table->string('part')->nullable();
+            $table->string('usage')->nullable();
             $table->timestamps();
         });
     }
