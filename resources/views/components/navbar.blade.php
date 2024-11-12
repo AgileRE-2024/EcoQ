@@ -2,7 +2,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand fw-bold text-success" href="{{ url('/') }}">EcoQ</a>
+        <a class="navbar-brand fw-bold text-success" href="{{ url('/') }}">
+            <img src="{{ asset('/assets/images/logo.png')}}" alt="Logo" style="height: 30px;">
+        </a>
 
         <!-- Search Bar -->
         <form class="d-flex mx-auto" role="search">
@@ -27,7 +29,13 @@
                     <a class="nav-link text-uppercase text-dark" href="{{ url('/kegiatan') }}">Kegiatan</a>
                 </li>
                 <li class="nav-item">
+                    @auth
+                    <!-- Jika pengguna sudah login -->
+                    <a class="btn btn-outline-success text-uppercase" href="{{ url('/dashboard') }}">Dashboard</a>
+                    @else
+                    <!-- Jika pengguna belum login -->
                     <a class="btn btn-outline-success text-uppercase" href="{{ url('/login') }}">Login</a>
+                    @endauth
                 </li>
             </ul>
         </div>
