@@ -101284,9 +101284,21 @@ div.code-toolbar > .toolbar span:focus {
     border-radius: 0;
     padding: 5px 15px;
     font-weight: 500;
+
+}
+
+.btn-outline-green {
+    border-radius: 0;
+    padding: 5px 15px;
+    font-weight: 500;
 }
 
 .btn-outline-success:hover {
+    color: white;
+    background-color: #198754;
+}
+
+.btn-outline-green {
     color: white;
     background-color: #198754;
 }
