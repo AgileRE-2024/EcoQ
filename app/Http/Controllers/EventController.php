@@ -31,6 +31,10 @@ class EventController extends Controller
     public function create()
     {
         //
+        if (!Auth::user()->role == 'garden_owner') {
+            return redirect()->route('events.index');
+        }
+        return view('dashboard.events.create');
     }
 
     /**
@@ -39,6 +43,22 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         //
+        $request->validated();
+
+        try {
+            Event::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'date' => $request->date,
+                'time' => $request->time,
+                'location' => $request->location,
+                'garden_id' => $request->garden_id,
+            ]);
+
+            return redirect()->route('events.index')->with('status', 'event-created');
+        } catch (\Exception $e) {
+            return redirect()->route('events.index')->with('status', 'event-not-created');
+        }
     }
 
     /**
@@ -47,6 +67,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         //
+        return view('dashboard.events.show', compact('event'));
     }
 
     /**
@@ -55,6 +76,7 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         //
+        return view('dashboard.events.edit', compact('event'));
     }
 
     /**
