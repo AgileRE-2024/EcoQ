@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.template')
 
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6 md:mt-16">
+    <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6">
         <div class="max-w-6xl mx-auto">
             <!-- Back Button -->
             <div class="mb-8">

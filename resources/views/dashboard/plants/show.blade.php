@@ -170,6 +170,39 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- Garden information --}}
+                    @if (Auth::user()->role == 'admin')
+                        <div class="mt-8 bg-yellow-50 rounded-xl p-6">
+                            <h2 class="text-xl font-semibold text-yellow-800 mb-4">Garden Information</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="text-sm text-yellow-600 font-medium">Garden Name</label>
+                                        <p class="text-gray-800 mt-1">{{ $plant->garden->name ?? 'N/A' }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-sm text-yellow-600 font-medium">Garden Location</label>
+                                        <p class="text-gray-800 mt-1">{{ $plant->garden->location ?? 'N/A' }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-sm text-yellow-600 font-medium">Garden Owner</label>
+                                        <p class="text-gray-800 mt-1">{{ $plant->garden->user->name ?? 'N/A' }}</p>
+                                    </div>
+                                </div>
+                                {{-- <div class="space-y-4">
+                                    <div>
+                                        <label class="text-sm text-yellow-600 font-medium">Garden Size</label>
+                                        <p class="text-gray-800 mt-1">{{ $plant->garden->size ?? 'N/A' }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-sm text-yellow-600 font-medium">Garden Type</label>
+                                        <p class="text-gray-800 mt-1">{{ $plant->garden->type ?? 'N/A' }}</p>
+                                    </div>
+                                </div> --}}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
