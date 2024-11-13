@@ -101258,3 +101258,47 @@ div.code-toolbar > .toolbar span:focus {
   color: inherit;
   text-decoration: none;
 }
+
+/* Menyesuaikan ukuran dan gaya elemen navbar */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-family: 'Georgia', serif;
+}
+
+.input-group-text {
+    border-radius: 20px 0 0 20px;
+}
+
+.form-control {
+    border-radius: 0 20px 20px 0;
+    width: 300px;
+}
+
+.navbar-nav .nav-link {
+    margin-right: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.btn-outline-success {
+    border-radius: 0;
+    padding: 5px 15px;
+    font-weight: 500;
+
+}
+
+.btn-outline-green {
+    border-radius: 0;
+    padding: 5px 15px;
+    font-weight: 500;
+}
+
+.btn-outline-success:hover {
+    color: white;
+    background-color: #198754;
+}
+
+.btn-outline-green {
+    color: white;
+    background-color: #198754;
+}
