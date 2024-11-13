@@ -28,14 +28,22 @@
                 <li class="nav-item">
                     <a class="nav-link text-uppercase text-dark" href="{{ url('/kegiatan') }}">Kegiatan</a>
                 </li>
-                <li class="nav-item">
-                    @auth
+                <li class="nav-item d-flex">
+                    @if(Auth::user())
                     <!-- Jika pengguna sudah login -->
-                    <a class="btn btn-outline-success text-uppercase" href="{{ url('/dashboard') }}">Dashboard</a>
+                    <a class="nav-link text-uppercase text-dark" href="{{ url('/dashboard') }}">Dashboard</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                                class="btn btn-outline-success text-uppercase w-full flex items-center justify-center px-4 py-2 text-gray-700 hover:bg-red-600 hover:text-white rounded-lg transition-colors duration-200">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
                     @else
                     <!-- Jika pengguna belum login -->
                     <a class="btn btn-outline-success text-uppercase" href="{{ url('/login') }}">Login</a>
-                    @endauth
+                    @endif
                 </li>
             </ul>
         </div>
