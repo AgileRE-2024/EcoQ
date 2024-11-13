@@ -1,275 +1,305 @@
 @extends('dashboard.layouts.template')
 
-@php
-    $partUsed = old('partUsed', $plant->partUsed ?? []);
-@endphp
 @section('content')
-    <div class="bg-gray-100 flex-1 p-5 md:mt-10">
-        <div class="mx-auto px-4">
-            <h1 class="text-3xl font-semibold text-gray-800 my-2">Edit Tanaman: {{ $plant->name }}</h1>
+    <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6 md:mt-16">
+        <div class="max-w-6xl mx-auto">
+            <!-- Back Button -->
+            <div class="mb-8">
+                <a href="{{ route('plants.index') }}"
+                    class="group inline-flex items-center gap-2 px-4 py-2 bg-white text-green-600 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-green-100 hover:border-green-200">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span class="font-medium">Back to Plants</span>
+                </a>
+            </div>
 
-            <form action="{{ route('plants.update', $plant->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
+            <!-- Main Form Card -->
+            <div class="bg-white rounded-2xl shadow-xl">
+                <div class="p-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-8">Edit Plant</h1>
 
-                <div class="bg-white shadow-md rounded my-6 p-4">
-                    <div class="mb-4">
-                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nama Tanaman</label>
-                        <input type="text" id="name" name="name" value="{{ old('name', $plant->name) }}" required
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('name')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="common_name" class="block text-gray-700 text-sm font-bold mb-2">Nama Umum</label>
-                        <input type="text" id="common_name" name="common_name"
-                            value="{{ old('common_name', $plant->common_name) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('common_name')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="scientific_name" class="block text-gray-700 text-sm font-bold mb-2">Nama Ilmiah</label>
-                        <input type="text" id="scientific_name" name="scientific_name"
-                            value="{{ old('scientific_name', $plant->scientific_name) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('scientific_name')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi</label>
-                        <textarea id="description" name="description" rows="4" required
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('description', $plant->description) }}</textarea>
-                        @error('description')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="habitat" class="block text-gray-700 text-sm font-bold mb-2">Habitat</label>
-                        <input type="text" id="habitat" name="habitat" value="{{ old('habitat', $plant->habitat) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('habitat')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Gambar Tanaman</label>
-                        <input type="file" id="image" name="image"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        <small class="text-gray-600">Kosongkan jika tidak ingin mengganti gambar.</small>
-                        @error('image')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <img src="{{ $plant->image ? asset('storage/images/plants/' . $plant->image) : asset('assets/images/plant.jpeg') }}"
-                            alt="{{ $plant->name }}" class="w-32 h-32 object-cover rounded">
-                    </div>
-
-                    <h2 class="text-xl font-bold mt-8 mb-4">Classification</h2>
-
-                    <div class="mb-4">
-                        <label for="kingdom" class="block text-gray-700 text-sm font-bold mb-2">Kingdom</label>
-                        <input type="text" id="kingdom" name="kingdom"
-                            value="{{ old('kingdom', $plant->classification->kingdom) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('kingdom')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="division" class="block text-gray-700 text-sm font-bold mb-2">Division</label>
-                        <input type="text" id="division" name="division"
-                            value="{{ old('division', $plant->classification->division) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('division')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="class" class="block text-gray-700 text-sm font-bold mb-2">Class</label>
-                        <input type="text" id="class" name="class"
-                            value="{{ old('class', $plant->classification->class) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('class')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="order" class="block text-gray-700 text-sm font-bold mb-2">Family</label>
-                        <input type="text" id="order" name="order"
-                            value="{{ old('order', $plant->classification->order) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('order')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="family" class="block text-gray-700 text-sm font-bold mb-2">Family</label>
-                        <input type="text" id="family" name="family"
-                            value="{{ old('family', $plant->classification->family) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('family')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-
-                    <div class="mb-4">
-                        <label for="genus" class="block text-gray-700 text-sm font-bold mb-2">Genus</label>
-                        <input type="text" id="genus" name="genus"
-                            value="{{ old('genus', $plant->classification->genus) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('genus')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="species" class="block text-gray-700 text-sm font-bold mb-2">Species</label>
-                        <input type="text" id="species" name="species"
-                            value="{{ old('species', $plant->classification->species) }}"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        @error('species')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-
-                    <h2 class="text-xl font-bold mt-8 mb-4">Pharmacology Aspect</h2>
-                    <div class="mb-4">
-                        <label for="toxicity" class="block text-gray-700 text-sm font-bold mb-2">Species</label>
-                        <textarea id="toxicity" name="toxicity" rows="4"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('toxicity', $plant->pharmacologyAspect->toxicity) }}</textarea>
-                        @error('toxicity')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="contraindications"
-                            class="block text-gray-700 text-sm font-bold mb-2">Contraindication</label>
-                        <textarea id="contraindications" name="contraindications" rows="4"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('contraindications', $plant->pharmacologyAspect->contraindications) }}</textarea>
-                        @error('contraindications')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- side_effects --}}
-                    <div class="mb-4">
-                        <label for="side_effects" class="block text-gray-700 text-sm font-bold mb-2">Side Effects</label>
-                        <textarea id="side_effects" name="side_effects" rows="4"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('side_effects', $plant->pharmacologyAspect->side_effects) }}</textarea>
-                        @error('side_effects')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- warnings --}}
-                    <div class="mb-4">
-                        <label for="warnings" class="block text-gray-700 text-sm font-bold mb-2">Warnings</label>
-                        <textarea id="warnings" name="warnings" rows="4"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('warnings', $plant->pharmacologyAspect->warnings) }}</textarea>
-                        @error('warnings')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    {{-- precautions --}}
-                    <div class="mb-4">
-                        <label for="precautions" class="block text-gray-700 text-sm font-bold mb-2">Precautions</label>
-                        <textarea id="precautions" name="precautions" rows="4"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('precautions', $plant->pharmacologyAspect->precautions) }}</textarea>
-                        @error('precautions')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-
-                    <h2 class="text-xl font-bold mt-8 mb-4">Part Used</h2>
-                    <div id="part-used-section">
-                        @foreach (old('partUsed', $plant->partUsed ?? []) as $index => $part)
-                            <div class="flex mb-4 part-used-item">
-                                <input type="text" name="partUsed[{{ $index }}][part]"
-                                    value="{{ $part['part'] ?? '' }}" placeholder="Part"
-                                    class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2" />
-                                <input type="text" name="partUsed[{{ $index }}][usage]"
-                                    value="{{ $part['usage'] ?? '' }}" placeholder="Usage"
-                                    class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                <button type="button"
-                                    class="remove-part-used bg-red-500 text-white rounded px-2 py-1 ml-2">Remove</button>
+                    @if ($errors->any())
+                        <div class="mb-8 rounded-lg bg-red-50 p-4 border-l-4 border-red-500">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
+                                    <div class="mt-2 text-sm text-red-700">
+                                        <ul class="list-disc list-inside space-y-1">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        @endforeach
-                        <button type="button" id="add-part-used"
-                            class="bg-green-500 text-white rounded my-4 px-4 py-2">Add
-                            Part Used</button>
-                    </div>
+                        </div>
+                    @endif
 
+                    <form action="{{ route('plants.update', $plant->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
 
+                        <!-- Basic Information Section -->
+                        <div class="bg-green-50 rounded-xl p-6 mb-8">
+                            <h2 class="text-xl font-semibold text-green-800 mb-6">Basic Information</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-6">
+                                    <div>
+                                        <label for="name" class="block text-sm font-medium text-green-700 mb-2">Name
+                                            <span class="text-red-500">*</span></label>
+                                        <input type="text" name="name" id="name" required
+                                            class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 transition duration-200"
+                                            placeholder="Enter plant name" value="{{ old('name', $plant->name) }}">
+                                    </div>
+                                    <div>
+                                        <label for="scientific_name"
+                                            class="block text-sm font-medium text-green-700 mb-2">Scientific Name</label>
+                                        <input type="text" name="scientific_name" id="scientific_name"
+                                            class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 transition duration-200"
+                                            placeholder="Enter scientific name"
+                                            value="{{ old('scientific_name', $plant->scientific_name) }}">
+                                    </div>
+                                </div>
+                                <div class="space-y-6">
+                                    <div>
+                                        <label for="common_name"
+                                            class="block text-sm font-medium text-green-700 mb-2">Common Name</label>
+                                        <input type="text" name="common_name" id="common_name"
+                                            class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 transition duration-200"
+                                            placeholder="Enter common name"
+                                            value="{{ old('common_name', $plant->common_name) }}">
+                                    </div>
+                                    <div>
+                                        <label for="habitat"
+                                            class="block text-sm font-medium text-green-700 mb-2">Habitat</label>
+                                        <input type="text" name="habitat" id="habitat"
+                                            class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 transition duration-200"
+                                            placeholder="Enter habitat" value="{{ old('habitat', $plant->habitat) }}">
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="description"
+                                        class="block text-sm font-medium text-green-700 mb-2">Description</label>
+                                    <textarea name="description" id="description" rows="4"
+                                        class="w-full rounded-lg px-3 py-2 border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 transition duration-200"
+                                        placeholder="Enter plant description">{{ old('description', $plant->description) }}</textarea>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="chemical_compounds"
+                                        class="block text-sm font-medium text-green-700 mb-2">Chemical Compounds</label>
+                                    <input type="text" name="chemical_compounds" id="chemical_compounds"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 transition duration-200"
+                                        placeholder="Enter chemical compounds"
+                                        value="{{ old('chemical_compounds', $plant->chemical_compounds) }}">
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="flex items-center justify-between">
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update
-                            Tanaman</button>
-                        <a href="{{ route('plants.index') }}"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Batal</a>
-                    </div>
+                        <!-- Image Upload Section -->
+                        <div class="bg-blue-50 rounded-xl p-6 mb-8">
+                            <h2 class="text-xl font-semibold text-blue-800 mb-6">Plant Image</h2>
+                            <div class="flex items-center justify-center w-full">
+                                <label for="image"
+                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 transition duration-300">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-12 h-12 mb-4 text-blue-500" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                            </path>
+                                        </svg>
+                                        <p class="mb-2 text-sm text-blue-600"><span class="font-medium">Click to
+                                                upload</span> or drag and drop</p>
+                                        <p class="text-xs text-blue-500">PNG, JPG or JPEG (MAX. 2MB)</p>
+                                    </div>
+                                    <input type="file" name="image" id="image" class="hidden"
+                                        accept="image/*" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Classification Section -->
+                        <div class="bg-purple-50 rounded-xl p-6 mb-8">
+                            <h2 class="text-xl font-semibold text-purple-800 mb-6">Classification</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label for="kingdom"
+                                        class="block text-sm font-medium text-purple-700 mb-2">Kingdom</label>
+                                    <input type="text" name="kingdom" id="kingdom"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+                                        placeholder="Enter kingdom"
+                                        value="{{ old('kingdom', $plant->classification->kingdom) }}">
+                                </div>
+                                <div>
+                                    <label for="division"
+                                        class="block text-sm font-medium text-purple-700 mb-2">Phylum</label>
+                                    <input type="text" name="division" id="division"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+                                        placeholder="Enter division"
+                                        value="{{ old('division', $plant->classification->division) }}">
+                                </div>
+                                <div>
+                                    <label for="class"
+                                        class="block text-sm font-medium text-purple-700 mb-2">Class</label>
+                                    <input type="text" name="class" id="class"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+                                        placeholder="Enter class"
+                                        value="{{ old('class', $plant->classification->class) }}">
+                                </div>
+                                <div>
+                                    <label for="order"
+                                        class="block text-sm font-medium text-purple-700 mb-2">Order</label>
+                                    <input type="text" name="order" id="order"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+                                        placeholder="Enter order"
+                                        value="{{ old('order', $plant->classification->order) }}">
+                                </div>
+                                <div>
+                                    <label for="family"
+                                        class="block text-sm font-medium text-purple-700 mb-2">Family</label>
+                                    <input type="text" name="family" id="family"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+                                        placeholder="Enter family"
+                                        value="{{ old('family', $plant->classification->family) }}">
+                                </div>
+                                <div>
+                                    <label for="genus"
+                                        class="block text-sm font-medium text-purple-700 mb-2">Genus</label>
+                                    <input type="text" name="genus" id="genus"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+                                        placeholder="Enter genus"
+                                        value="{{ old('genus', $plant->classification->genus) }}">
+                                </div>
+
+                                <div>
+                                    <label for="species"
+                                        class="block text-sm font-medium text-purple-700 mb-2">Species</label>
+                                    <input type="text" name="species" id="species"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+                                        placeholder="Enter species"
+                                        value="{{ old('species', $plant->classification->species) }}">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="bg-red-50 rounded-xl p-6 mb-8">
+                            <h2 class="text-xl font-semibold text-red-800 mb-6">Pharmacological Aspects</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="toxicity"
+                                        class="block text-sm font-medium text-red-700 mb-2">Toxicity</label>
+                                    <textarea name="toxicity" id="toxicity" rows="3"
+                                        class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-red-500 focus:ring focus:ring-red-200 transition duration-200"
+                                        placeholder="Enter toxicity information">{{ old('toxicity', $plant->pharmacologyAspect->toxicity) }}</textarea>
+                                </div>
+                                <div>
+                                    <label for="contraindications"
+                                        class="block text-sm font-medium text-red-700 mb-2">Contraindications</label>
+                                    <textarea name="contraindications" id="contraindications" rows="3"
+                                        class="w-full rounded-lg px-3 py-2 border-gray-300 focus:border-red-500 focus:ring focus:ring-red-200 transition duration-200"
+                                        placeholder="Enter contraindications">{{ old('contraindications', $plant->pharmacologyAspect->contraindications) }}</textarea>
+                                </div>
+                                <div>
+                                    <label for="warnings"
+                                        class="block text-sm font-medium text-red-700 mb-2">Warnings</label>
+                                    <textarea name="warnings" id="warnings" rows="3"
+                                        class="w-full rounded-lg px-3 py-2 border-gray-300 focus:border-red-500 focus:ring focus:ring-red-200 transition duration-200"
+                                        placeholder="Enter warnings">{{ old('warnings', $plant->pharmacologyAspect->warnings) }}</textarea>
+                                </div>
+                                <div>
+                                    <label for="precautions"
+                                        class="block text-sm font-medium text-red-700 mb-2">Precautions</label>
+                                    <textarea name="precautions" id="precautions" rows="3"
+                                        class="w-full rounded-lg px-3 py-2 border-gray-300 focus:border-red-500 focus:ring focus:ring-red-200 transition duration-200"
+                                        placeholder="Enter precautions">{{ old('precautions', $plant->pharmacologyAspect->precautions) }}</textarea>
+                                </div>
+                                <div>
+                                    <label for="side_effects" class="block text-sm font-medium text-red-700 mb-2">Side
+                                        Effects</label>
+                                    <textarea name="side_effects" id="side_effects" rows="3"
+                                        class="w-full rounded-lg px-3 py-2 border-gray-300 focus:border-red-500 focus:ring focus:ring-red-200 transition duration-200"
+                                        placeholder="Enter side effects">{{ old('side_effects', $plant->pharmacologyAspect->side_effects) }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Parts Used Section -->
+                        <div class="bg-yellow-50 rounded-xl p-6 mb-8">
+                            <h2 class="text-xl font-semibold text-yellow-800 mb-6">Used Parts</h2>
+                            <div id="usedPartContainer">
+                                <!-- Existing Parts Rows (Assuming you pass existing parts from backend) -->
+                                @foreach ($plant->partUsed as $index => $part)
+                                    <div class="flex items-center mb-4 usedPartRow">
+                                        <input type="text" name="parts[{{ $index }}][part]"
+                                            value="{{ $part['part'] }}" placeholder="Part" required
+                                            class="w-full mr-2 px-3 py-2 rounded-lg border-gray-300 focus:border-yellow-500 focus:ring focus:ring-yellow-200 transition duration-200" />
+                                        <input type="text" name="parts[{{ $index }}][usage]"
+                                            value="{{ $part['usage'] }}" placeholder="Usage" required
+                                            class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-yellow-500 focus:ring focus:ring-yellow-200 transition duration-200" />
+                                        <button type="button"
+                                            class="ml-2 px-3 py-2 text-white bg-red-500 rounded-lg removePartBtn">Remove</button>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button type="button" id="addPartBtn"
+                                class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg">Add Part</button>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">Update
+                                Plant</button>
+                        </div>
+                    </form>
                 </div>
-
-
-
-            </form>
+            </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const partUsedSection = document.getElementById('part-used-section');
-            const addPartUsedBtn = document.getElementById('add-part-used');
+@endsection
 
-            function addPartUsedField() {
-                const index = partUsedSection.querySelectorAll('.part-used-item').length;
-                const partUsedItem = document.createElement('div');
-                partUsedItem.classList.add('flex', 'mb-4', 'part-used-item');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let partIndex = {{ count($plant->partUsed) }}; // Set the index based on existing parts
 
-                partUsedItem.innerHTML = `
-            <input type="text" name="partUsed[${index}][part]" placeholder="Part"
-                class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2" />
-            <input type="text" name="partUsed[${index}][usage]" placeholder="Usage"
-                class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-            <button type="button" class="remove-part-used bg-red-500 text-white rounded px-2 py-1 ml-2">Remove</button>
-        `;
+        // Add new part row
+        document.getElementById('addPartBtn').addEventListener('click', function() {
+            const container = document.getElementById('usedPartContainer');
+            const newRow = document.createElement('div');
+            newRow.classList.add('flex', 'items-center', 'mb-4', 'usedPartRow');
+            newRow.innerHTML = `
+                <input type="text" name="parts[${partIndex}][part]" placeholder="Part" required
+                    class="w-full mr-2 px-3 py-2 rounded-lg border-gray-300 focus:border-yellow-500 focus:ring focus:ring-yellow-200 transition duration-200" />
+                <input type="text" name="parts[${partIndex}][usage]" placeholder="Usage" required
+                    class="w-full px-3 py-2 rounded-lg border-gray-300 focus:border-yellow-500 focus:ring focus:ring-yellow-200 transition duration-200" />
+                <button type="button" class="ml-2 px-3 py-2 text-white bg-red-500 rounded-lg removePartBtn">Remove</button>
+            `;
+            container.appendChild(newRow);
+            partIndex++;
 
-                // Add event listener for the remove button on the new item
-                partUsedItem.querySelector('.remove-part-used').addEventListener('click', function() {
-                    partUsedItem.remove();
-                });
-
-                // Insert the new item before the "Add Part Used" button
-                partUsedSection.insertBefore(partUsedItem, addPartUsedBtn);
-            }
-
-            // Event listener for the "Add Part Used" button
-            addPartUsedBtn.addEventListener('click', addPartUsedField);
-
-            // Add event listeners to existing "Remove" buttons (for fields already present in the HTML)
-            const existingRemoveButtons = partUsedSection.querySelectorAll('.remove-part-used');
-            existingRemoveButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    button.parentElement.remove();
-                });
+            // Add event listener to remove button
+            newRow.querySelector('.removePartBtn').addEventListener('click', function() {
+                newRow.remove();
             });
         });
-    </script>
-@endsection
+
+        // Initial remove button for already existing rows
+        document.querySelectorAll('.removePartBtn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                this.closest('.usedPartRow').remove();
+            });
+        });
+    });
+</script>

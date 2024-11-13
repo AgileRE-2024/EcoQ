@@ -3,7 +3,7 @@
 
       <!-- logo -->
       <div class="flex-none w-56 flex flex-row items-center">
-          <strong class="capitalize ml-1 flex-1">Open Regulation</strong>
+          <strong class="capitalize ml-1 flex-1">Eco Q</strong>
 
           <button id="sliderBtn" class="flex-none text-right text-gray-900 hidden md:block">
               <i class="fad fa-list-ul"></i>

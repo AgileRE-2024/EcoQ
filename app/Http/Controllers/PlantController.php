@@ -177,8 +177,8 @@ class PlantController extends Controller
 
 
             $plant->partUsed()->delete();
-            if (is_array($request->partUsed)) {
-                foreach ($request->partUsed as $part) {
+            if (is_array($request->parts)) {
+                foreach ($request->parts as $part) {
                     $plant->partUsed()->create([
                         'part' => $part['part'],
                         'usage' => $part['usage'], // typo diperbaiki

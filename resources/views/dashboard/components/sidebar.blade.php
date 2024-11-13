@@ -1,57 +1,30 @@
-<div id="sideBar"
-    class="relative flex flex-col flex-wrap bg-white border-r border-gray-300 p-6 flex-none w-64 md:-ml-64 md:fixed md:top-0 md:z-30 md:h-screen md:shadow-xl animated faster">
-    <!-- sidebar content -->
-    <div class="flex flex-col">
-        <!-- sidebar toggle -->
-        <div class="text-right hidden md:block mb-4">
-            <button id="sideBarHideBtn">
-                <i class="fad fa-times-circle"></i>
-            </button>
-        </div>
-        <!-- end sidebar toggle -->
-
-
-        <!-- link -->
-        <a href="{{ route('dashboard') }}"
-            class="mb-3 capitalize font-medium text-xl hover:text-teal-600 transition ease-in-out duration-500">
-            <i class="fad fa-home text-lg mr-2"></i>
-            Home
+<div
+    class="bg-white w-64 h-screen shadow-md fixed top-0 left-0 transform transition-transform duration-300 ease-in-out lg:relative lg:transform-none">
+    <div class="flex items-center justify-center py-6 border-b">
+        <a href="{{ route('dashboard') }}" class="font-bold text-xl text-gray-800 hover:text-indigo-600">
+            Dashboard
         </a>
-        <!-- end link -->
-
-        <!-- link -->
-        <a href="{{ route('plants.index') }}"
-            class="mb-3 capitalize font-medium text-xl hover:text-teal-600 transition ease-in-out duration-500">
-            <i class="fad fa-leaf text-lg mr-2"></i>
-            Plants
-        </a>
-        @if (Auth::user()->role == 'admin')
-            <a href="{{ route('gardens.index') }}"
-                class="mb-3 capitalize font-medium text-xl hover:text-teal-600 transition ease-in-out duration-500">
-                <i class="fad fa-canadian-maple-leaf text-lg mr-2"></i>
-                Gardens
-            </a>
-        @endif
-        {{-- <a href="{{ route('comments.index') }}"
-            class="mb-3 capitalize font-medium text-xl hover:text-teal-600 transition ease-in-out duration-500">
-            <i class="fad fa-envelope-open-text text-lg mr-2"></i>
-            Comments
-        </a> --}}
-        <!-- end link -->
-
-        <!-- link -->
-        <a href="{{ route('events.index') }}"
-            class="mb-3 capitalize font-medium text-xl hover:text-teal-600 transition ease-in-out duration-500">
-            <i class="fad fa-envelope-open-text text-lg mr-2"></i>
-            Events
-        </a>
-        <!-- end link -->
-
-        <!-- link -->
-        <!-- end link -->
-
-
-        <!-- end link -->
     </div>
-    <!-- end sidebar content -->
+    <nav class="mt-6 space-y-2">
+        <!-- Event link -->
+        <a href="{{ route('events.index') }}"
+            class="flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-600 hover:text-white rounded-lg transition-colors duration-200">
+            <i class="fas fa-calendar-alt mr-3"></i>
+            <span>Events</span>
+        </a>
+
+        <!-- Plants link -->
+        <a href="{{ route('plants.index') }}"
+            class="flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-600 hover:text-white rounded-lg transition-colors duration-200">
+            <i class="fas fa-leaf mr-3"></i>
+            <span>Plants</span>
+        </a>
+
+        <!-- Profile link -->
+        <a href="{{ route('profile.index') }}"
+            class="flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-600 hover:text-white rounded-lg transition-colors duration-200">
+            <i class="fas fa-user mr-3"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
 </div>

@@ -14,7 +14,9 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('plants', PlantController::class);
-    Route::resource('profile', ProfileController::class);
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::resource('events', EventController::class);
 });
 

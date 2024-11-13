@@ -11,14 +11,29 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function index()
+    {
+        $user = Auth::user();
+        if (Auth::user()->role == 'admin') {
+            return view('dashboard.profile.index', compact('user'));
+        } else if (Auth::user()->role == 'garden_owner') {
+            $garden = Auth::user()->garden;
+            return view('dashboard.profile.index', compact(['garden', 'user']));
+        }
+    }
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+        if (Auth::user()->role == 'admin') {
+            return view('dashboard.profile.edit', compact('user'));
+        } else if (Auth::user()->role == 'garden_owner') {
+            $garden = Auth::user()->garden;
+
+            return view('dashboard.profile.edit', compact(['garden', 'user']));
+        }
     }
 
     /**
@@ -28,13 +43,18 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        if ($request->user()->role == 'garden_owner') {
+            $request->user()->garden->fill([
+                'name' => $request->input('garden_name'),
+                'location' => $request->input('garden_location'),
+                'description' => $request->input('garden_description'),
+            ]);
+            $request->user()->garden->save();
+        }
+
+        return Redirect::route('profile.index')->with('status', 'profile-updated');
     }
 
     /**

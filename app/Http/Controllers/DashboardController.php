@@ -18,6 +18,6 @@ class DashboardController extends Controller
             return view('dashboard.garden_owner.index');
         }
 
-        return view('dashboard');
+        return view('welcome');
     }
 }
