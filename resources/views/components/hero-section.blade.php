@@ -1,20 +1,31 @@
-<div class="container my-4 align-items-center">
-    <div class="row w-100">
-        <!-- Teks Judul dan Deskripsi -->
-        <div class="col-md-6 d-flex flex-column justify-content-center">
-            <h1 class="display-4 fw-bold text-success" style="font-family: 'Libre Baskerville', serif;">A Beautiful Adventure Awaits</h1>
-            <p class="text-muted" style="font-family: 'Roboto', sans-serif;">
-                Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Tincidunt Facilisis Nunc
+<section class="bg-white py-16">
+    <div class="container mx-auto flex items-center justify-between space-x-8">
+        <!-- Text Content -->
+        <div class="ml-10 w-1/2">
+            <h1 class="text-6xl font-bold text-green-900 leading-snug font-libre">
+                A Beautiful <br> Adventure Awaits
+            </h1>
+            <p class="mt-4 text-xl text-gray-600 font-roboto">
+                Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Tincidunt Facilisis Nunc.
             </p>
-            <div class="mt-3">
-                <a href="{{ url('/katalog') }}" class="btn btn-outline-green me-2">KATALOG</a>
-                <a href="#" class="btn btn-outline-success">LEARN MORE</a>
+            <div class="mt-6 flex space-x-4">
+                <a href="#"
+                   class="px-6 py-3 bg-green-900 text-white font-semibold rounded hover:bg-green-800">
+                    KATALOG
+                </a>
+                <a href="#"
+                   class="px-6 py-3 border border-green-900 text-green-900 font-semibold rounded hover:bg-green-100">
+                    LEARN MORE
+                </a>
             </div>
         </div>
 
-        <!-- Gambar -->
-        <div class="col-md-6 d-flex justify-content-center"">
-            <img src="{{ asset('assets/images/garden.jpg') }}" alt="Beautiful Adventure" class="img-fluid" style="width: 80%; height: 90%; border-top-left-radius: 250px; border-top-right-radius: 250px;">
+        <!-- Image Content -->
+        <div class="w-1/2 mt-10 flex justify-center">
+            <div class="relative overflow-hidden rounded-t-[100px] border-4 border-gray-200" style="width: 400px; height: 600px;">
+                <img src="{{ asset('assets/images/garden.jpg') }}" alt="Beautiful Adventure"
+                     class="object-cover w-full h-full">
+            </div>
         </div>
     </div>
-</div>
+</section>

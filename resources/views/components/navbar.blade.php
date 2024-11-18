@@ -1,4 +1,4 @@
-<nav class="flex items-center justify-between bg-gray-100 px-6 py-4 shadow">
+<nav class="inline-flex fixed w-full items-center justify-between bg-gray-100 px-6 py-4 shadow z-50 ">
     <!-- Logo -->
     <div class="flex items-center space-x-4">
         <a href="/">
