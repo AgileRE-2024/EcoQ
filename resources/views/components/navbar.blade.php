@@ -32,18 +32,18 @@
 
     <!-- Navigation Links -->
     <div class="flex items-center space-x-6">
-        <a href="/" class="text-sm font-semibold text-green-900 hover:font-bold">HOME</a>
-        <a href="/katalog" class="text-sm font-semibold text-green-900 hover:font-bold">KATALOG</a>
-        <a href="/kegiatan" class="text-sm font-semibold text-green-900 hover:font-bold">KEGIATAN</a>
+        <a href="/" class="text-sm font-semibold text-green-900 hover:font-bold transition">HOME</a>
+        <a href="/katalog" class="text-sm font-semibold text-green-900 hover:font-bold transition">KATALOG</a>
+        <a href="/kegiatan" class="text-sm font-semibold text-green-900 hover:font-bold transition">KEGIATAN</a>
 
         @if(Auth::check())
         <!-- Menu Dashboard dan Logout -->
-        <a href="/dashboard" class="text-sm font-semibold text-green-900 hover:font-bold">DASHBOARD</a>
+        <a href="/dashboard" class="text-sm font-semibold text-green-900 hover:font-bold transition">DASHBOARD</a>
         <form method="POST" action="{{ route('logout') }}" class="inline">
             @csrf
             <button
                 type="submit"
-                class="px-4 py-2 text-sm font-semibold text-red-900 border border-red-900 rounded hover:bg-red-100"
+                class="px-4 py-2 text-sm font-semibold text-red-900 border border-red-900 rounded hover:bg-red-900 hover:text-white hover:border-red-900 transition"
             >
                 LOGOUT
             </button>
@@ -52,7 +52,7 @@
         <!-- Menu Login -->
         <a
             href="/login"
-            class="px-4 py-2 text-sm font-semibold text-green-900 border border-green-900 rounded hover:bg-green-100"
+            class="px-4 py-2 text-sm font-semibold text-green-900 border border-green-900 rounded hover:bg-green-900 hover:text-white hover:border-green-900 transition"
         >
             LOGIN
         </a>

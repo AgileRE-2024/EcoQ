@@ -10,11 +10,11 @@
             </p>
             <div class="mt-6 flex space-x-4">
                 <a href="#"
-                   class="px-6 py-3 bg-green-900 text-white font-semibold rounded hover:bg-green-800">
+                   class="px-6 py-3 bg-green-900 text-white font-semibold border-2 rounded hover:bg-white hover:text-green-900 hover:border-green-900 transition">
                     KATALOG
                 </a>
                 <a href="#"
-                   class="px-6 py-3 border border-green-900 text-green-900 font-semibold rounded hover:bg-green-100">
+                   class="px-6 py-3 border border-green-900 text-green-900 font-semibold rounded hover:bg-green-900 hover:text-white hover:border-green-900 transition">
                     LEARN MORE
                 </a>
             </div>
@@ -22,7 +22,7 @@
 
         <!-- Image Content -->
         <div class="w-1/2 mt-10 flex justify-center">
-            <div class="relative overflow-hidden rounded-t-[100px] border-4 border-gray-200" style="width: 400px; height: 600px;">
+            <div class="relative overflow-hidden rounded-t-[200px] border-4 border-gray-200" style="width: 400px; height: 600px;">
                 <img src="{{ asset('assets/images/garden.jpg') }}" alt="Beautiful Adventure"
                      class="object-cover w-full h-full">
             </div>
