@@ -9,7 +9,7 @@
                 Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Tincidunt Facilisis Nunc.
             </p>
             <div class="mt-6 flex space-x-4">
-                <a href="#"
+                <a href="/katalog"
                    class="px-6 py-3 bg-green-900 text-white font-semibold border-2 rounded hover:bg-white hover:text-green-900 hover:border-green-900 transition">
                     KATALOG
                 </a>

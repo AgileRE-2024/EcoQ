@@ -23,7 +23,7 @@
             </a>
 
             <!-- Decorative Leaves -->
-            <div class="absolute top-0 right-0 transform translate-x-12 -translate-y-12 opacity-20">
+            <div class="absolute top-0 right-9 transform translate-x-12 -translate-y-12 opacity-20">
                 <img src="{{ asset('assets/images/vector.png') }}" alt="Decorative Leaf" class="w-xl h-xl">
             </div>
         </div>
