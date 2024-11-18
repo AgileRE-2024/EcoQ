@@ -1,51 +1,61 @@
-<!-- resources/views/components/navbar.blade.php -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-    <div class="container">
-        <!-- Logo -->
-        <a class="navbar-brand fw-bold text-success" href="{{ url('/') }}">
-            <img src="{{ asset('/assets/images/logo.png')}}" alt="Logo" style="height: 30px;">
+<nav class="flex items-center justify-between bg-gray-100 px-6 py-4 shadow">
+    <!-- Logo -->
+    <div class="flex items-center space-x-4">
+        <a href="/">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo EcoQ" class="h-8">
         </a>
-
         <!-- Search Bar -->
-        <form class="d-flex mx-auto" role="search">
-            <div class="input-group">
-                <span class="input-group-text bg-light border-0">
-                    <i class="bi bi-search text-muted"></i> <!-- Bootstrap icon untuk search -->
-                </span>
-                <input class="form-control border-0 bg-light" type="search" placeholder="Search" aria-label="Search">
+        <div class="relative">
+            <input
+                type="text"
+                placeholder="Search..."
+                class="w-64 px-4 py-2 bg-gray-300 text-gray-700 rounded-full focus:outline-none"
+            />
+            <div class="absolute top-1/2 right-4 transform -translate-y-1/2">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-4.35-4.35"
+                    />
+                </svg>
             </div>
-        </form>
-
-        <!-- Navbar Links -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-dark" href="{{ url('/') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-dark" href="{{ url('/katalog') }}">Katalog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-dark" href="{{ url('/kegiatan') }}">Kegiatan</a>
-                </li>
-                <li class="nav-item d-flex">
-                    @if(Auth::user())
-                    <!-- Jika pengguna sudah login -->
-                    <a class="nav-link text-uppercase text-dark" href="{{ url('/dashboard') }}">Dashboard</a>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit"
-                                class="btn btn-outline-success text-uppercase w-full flex items-center justify-center px-4 py-2 text-gray-700 hover:bg-red-600 hover:text-white rounded-lg transition-colors duration-200">
-                            <i class="fas fa-sign-out-alt mr-3"></i>
-                            <span>Logout</span>
-                        </button>
-                    </form>
-                    @else
-                    <!-- Jika pengguna belum login -->
-                    <a class="btn btn-outline-success text-uppercase" href="{{ url('/login') }}">Login</a>
-                    @endif
-                </li>
-            </ul>
         </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="flex items-center space-x-6">
+        <a href="/" class="text-sm font-semibold text-green-900 hover:font-bold">HOME</a>
+        <a href="/katalog" class="text-sm font-semibold text-green-900 hover:font-bold">KATALOG</a>
+        <a href="/kegiatan" class="text-sm font-semibold text-green-900 hover:font-bold">KEGIATAN</a>
+
+        @if(Auth::check())
+        <!-- Menu Dashboard dan Logout -->
+        <a href="/dashboard" class="text-sm font-semibold text-green-900 hover:font-bold">DASHBOARD</a>
+        <form method="POST" action="{{ route('logout') }}" class="inline">
+            @csrf
+            <button
+                type="submit"
+                class="px-4 py-2 text-sm font-semibold text-red-900 border border-red-900 rounded hover:bg-red-100"
+            >
+                LOGOUT
+            </button>
+        </form>
+        @else
+        <!-- Menu Login -->
+        <a
+            href="/login"
+            class="px-4 py-2 text-sm font-semibold text-green-900 border border-green-900 rounded hover:bg-green-100"
+        >
+            LOGIN
+        </a>
+        @endif
     </div>
 </nav>
