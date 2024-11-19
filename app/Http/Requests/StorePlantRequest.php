@@ -44,7 +44,7 @@ class StorePlantRequest extends FormRequest
             'precautions' => 'nullable|string|max:500',
             'parts.*.part' => 'nullable|string|max:255',
             'parts.*.usege' => 'nullable|string|max:255',
-
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

@@ -6,9 +6,18 @@ use App\Models\Plant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePlantRequest;
 use App\Http\Requests\UpdatePlantRequest;
+use DeepCopy\f001\B;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
+use SimpleQrcode;
+
+
 
 class PlantController extends Controller
 {
@@ -86,13 +95,48 @@ class PlantController extends Controller
 
             if (is_array($request->parts)) {
                 foreach ($request->parts as $part) {
-                    $plant->partUsed()->create([
+                    $plant->partUseds()->create([
                         'part' => $part['part'],
                         'usage' => $part['usage'], // typo diperbaiki
                     ]);
                 }
             }
 
+
+            if (is_array($request->images)) {
+                foreach ($request->images as $index => $image) {
+                    $imageName = $request->name . '-' . $index . '.' . $image->getClientOriginalExtension();
+                    $image->storeAs('public/images/plants/', $imageName);
+                    $plant->images()->create([
+                        'image_url' => $imageName,
+                    ]);
+                }
+            }
+
+            $qrCodeData = route('plant', $plant->id); // URL halaman detail tanaman
+            $qrCodePath = 'images/qr_codes/plant_' . $plant->id . '.png'; // Path untuk menyimpan QR code
+
+            $builder = new Builder(
+                writer: new PngWriter(),
+                writerOptions: [],
+                validateResult: false,
+                data: $qrCodeData,
+                encoding: new Encoding('UTF-8'),
+                errorCorrectionLevel: ErrorCorrectionLevel::High,
+                size: 200, // Ukuran QR Code
+                margin: 10, // Margin
+                roundBlockSizeMode: RoundBlockSizeMode::Margin
+            );
+
+            $result = $builder->build();
+
+            // Simpan QR code ke dalam folder storage
+            $result->saveToFile(public_path('storage/' . $qrCodePath));
+
+            // Update path QR code di database
+            $plant->update(['qr_image' => $qrCodePath]);
+
+            // Update path QR code di database
             return redirect()->route('plants.index')->with('success', 'Plant created successfully');
         } catch (\Exception $e) {
             Log::error($e->getMessage()); // Log the error message

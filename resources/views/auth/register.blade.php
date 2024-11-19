@@ -1,255 +1,237 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
+@section('content')
+    @push('styles')
+        <style>
+            /* Existing animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px) rotate(0deg);
+                }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Garden Paradise</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
+                50% {
+                    transform: translateY(-10px) rotate(5deg);
+                }
 
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
+                100% {
+                    transform: translateY(0px) rotate(0deg);
+                }
             }
 
-            50% {
-                transform: translateY(-10px);
+            @keyframes blob {
+                0% {
+                    transform: translate(0px, 0px) scale(1);
+                }
+
+                33% {
+                    transform: translate(30px, -50px) scale(1.1);
+                }
+
+                66% {
+                    transform: translate(-20px, 20px) scale(0.9);
+                }
+
+                100% {
+                    transform: translate(0px, 0px) scale(1);
+                }
             }
 
-            100% {
-                transform: translateY(0px);
-            }
-        }
+            /* New animations */
+            @keyframes shimmer {
+                0% {
+                    background-position: -1000px 0;
+                }
 
-        .floating-leaf {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .garden-input {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
-        }
-
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        @keyframes blob {
-            0% {
-                transform: translate(0px, 0px) scale(1);
+                100% {
+                    background-position: 1000px 0;
+                }
             }
 
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
+            .input-shimmer {
+                background: linear-gradient(to right,
+                        rgba(255, 255, 255, 0) 0%,
+                        rgba(255, 255, 255, 0.8) 50%,
+                        rgba(255, 255, 255, 0) 100%);
+                background-size: 1000px 100%;
+                animation: shimmer 2s infinite;
             }
 
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
+            .floating-leaf {
+                animation: float 3s ease-in-out infinite;
             }
 
-            100% {
-                transform: translate(0px, 0px) scale(1);
+            .animate-blob {
+                animation: blob 7s infinite;
             }
-        }
 
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-    </style>
-</head>
+            .garden-input {
+                background-color: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(5px);
+                transition: all 0.3s ease;
+            }
 
-<body class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 min-h-screen">
-    <!-- Animated Background Elements -->
-    <div class="fixed inset-0 pointer-events-none">
-        <div
-            class="absolute top-1/4 left-1/4 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
-        </div>
-        <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
-            style="animation-delay: 2s;"></div>
-        <div class="absolute bottom-1/4 left-1/3 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
-            style="animation-delay: 4s;"></div>
-    </div>
+            .garden-input:focus {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
 
-    <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
-        <div class="max-w-md w-full space-y-8 glass-effect p-10 rounded-3xl shadow-xl relative overflow-hidden">
-            <!-- Decorative Garden Elements -->
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow:
+                    0 8px 32px 0 rgba(31, 38, 135, 0.07),
+                    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            }
+
+            .garden-input::placeholder {
+                opacity: 0.5;
+            }
+
+            .garden-input:focus {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+
+            .form-group:hover label {
+                color: #059669;
+                transition: color 0.3s ease;
+            }
+        </style>
+    @endpush
+
+    {{-- Main Container with proper spacing for navbar --}}
+    <div class="min-h-screen pt-20 pb-16"> {{-- Added pt-20 for navbar space --}}
+        {{-- Background Blobs --}}
+        <div class="fixed inset-0 pointer-events-none overflow-hidden">
             <div
-                class="absolute -top-10 -left-10 w-40 h-40 bg-gradient-to-br from-green-300/30 to-emerald-300/30 rounded-full blur-2xl">
+                class="absolute top-1/4 left-1/4 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
             </div>
             <div
-                class="absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-tl from-teal-300/30 to-green-300/30 rounded-full blur-2xl">
+                class="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000">
             </div>
-
-            <!-- Vine Decorations -->
-            <div class="absolute top-0 left-0 w-24 h-24">
-                <svg viewBox="0 0 100 100" class="text-green-400/20">
-                    <path d="M0,0 Q50,50 100,0" stroke="currentColor" fill="none" stroke-width="2" />
-                    <path d="M20,0 Q50,30 80,0" stroke="currentColor" fill="none" stroke-width="2" />
-                </svg>
-            </div>
-
-            <div class="relative">
-                <img class="mx-auto h-24 w-auto floating-leaf" src="{{ asset('assets/images/logo.png') }}"
-                    alt="Garden Paradise Logo">
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-green-800">
-                    Join Our Garden Paradise
-                </h2>
-                <p class="mt-2 text-center text-sm text-green-600">
-                    Create your account and start growing with us
-                </p>
-            </div>
-
-            @if ($errors->any())
-                <div class="bg-red-100/80 backdrop-blur border-l-4 border-red-500 text-red-700 p-4 rounded-lg"
-                    role="alert">
-                    <p class="font-bold">Oops! Something went wrong:</p>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form class="mt-8 space-y-6" action="{{ route('register') }}" method="POST">
-                @csrf
-                <div class="rounded-xl shadow-sm space-y-4 bg-white/50 backdrop-blur p-6">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-green-900">Full Name</label>
-                        <input id="name" name="name" type="text" required
-                            class="garden-input appearance-none rounded-lg relative block w-full px-4 py-3 mt-1 border-0 placeholder-green-400 text-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:z-10 sm:text-sm"
-                            placeholder="🌿 Enter your full name">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-green-900">Email Address</label>
-                        <input id="email" name="email" type="email" autocomplete="email" required
-                            class="garden-input appearance-none rounded-lg relative block w-full px-4 py-3 mt-1 border-0 placeholder-green-400 text-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:z-10 sm:text-sm"
-                            placeholder="🌱 Enter your email">
-                    </div>
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-green-900">Password</label>
-                        <input id="password" name="password" type="password" autocomplete="new-password" required
-                            class="garden-input appearance-none rounded-lg relative block w-full px-4 py-3 mt-1 border-0 placeholder-green-400 text-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:z-10 sm:text-sm"
-                            placeholder="🔒 Enter your password">
-                    </div>
-                    <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-green-900">Confirm
-                            Password</label>
-                        <input id="password_confirmation" name="password_confirmation" type="password" required
-                            class="garden-input appearance-none rounded-lg relative block w-full px-4 py-3 mt-1 border-0 placeholder-green-400 text-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:z-10 sm:text-sm"
-                            placeholder="🔒 Confirm your password">
-                    </div>
-                </div>
-
-
-                <div>
-                    <button type="submit"
-                        class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-green-100 group-hover:text-green-200"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                        Create Your Garden Account
-                    </button>
-                </div>
-            </form>
-
-            <div class="mt-6">
-                <div class="relative">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-green-200"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-white/80 backdrop-blur text-green-600">
-                            Or continue with
-                        </span>
-                    </div>
-                </div>
-
-                <div class="mt-6 grid grid-cols-3 gap-3">
-                    <div>
-                        <a href="#"
-                            class="w-full inline-flex justify-center py-2 px-4 border border-green-200 rounded-xl shadow-sm bg-white/80 backdrop-blur text-sm font-medium text-green-600 hover:bg-green-50 transition duration-150">
-                            <span class="sr-only">Sign up with Facebook</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                    </div>
-
-                    <div>
-                        <a href="#"
-                            class="w-full inline-flex justify-center py-2 px-4 border border-green-200 rounded-xl shadow-sm bg-white/80 backdrop-blur text-sm font-medium text-green-600 hover:bg-green-50 transition duration-150">
-                            <span class="sr-only">Sign up with Twitter</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                                <path
-                                    d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                            </svg>
-                        </a>
-                    </div>
-
-                    <div>
-                        <a href="#"
-                            class="w-full inline-flex justify-center py-2 px-4 border border-green-200 rounded-xl shadow-sm bg-white/80 backdrop-blur text-sm font-medium text-green-600 hover:bg-green-50 transition duration-150">
-                            <span class="sr-only">Sign up with GitHub</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer with Garden Elements -->
-            <div class="absolute bottom-0 w-full mt-6">
-                <div class="flex justify-center items-center pb-4">
-                    <p class="text-center text-sm text-green-600 backdrop-blur bg-white/30 px-4 py-2 rounded-full">
-                        &copy; 2024 Garden Paradise. Growing together 🌱
-                    </p>
-                </div>
-
-                <!-- Decorative Bottom Garden Elements -->
-                <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-                    <svg class="relative block w-full h-12" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1200 120" preserveAspectRatio="none">
-                        <path
-                            d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-                            class="fill-green-100/50"></path>
-                    </svg>
-                </div>
+            <div
+                class="absolute bottom-1/4 left-1/3 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000">
             </div>
         </div>
 
-        <!-- Animated Nature Elements -->
-        <div class="fixed bottom-0 left-0 w-full h-32 pointer-events-none">
-            <div class="absolute bottom-0 left-1/4 floating-leaf" style="animation-delay: 0.5s;">
-                <svg class="w-8 h-8 text-green-300/40" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12,2L1,21H23L12,2M12,6L19.53,19H4.47L12,6M11,10V14H13V10H11M11,16V18H13V16H11Z" />
-                </svg>
-            </div>
-            <div class="absolute bottom-0 right-1/4 floating-leaf" style="animation-delay: 1.5s;">
-                <svg class="w-6 h-6 text-emerald-300/40" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12,2L1,21H23L12,2M12,6L19.53,19H4.47L12,6M11,10V14H13V10H11M11,16V18H13V16H11Z" />
-                </svg>
+        {{-- Registration Form Container --}}
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto">
+                <div class="glass-effect p-8 rounded-3xl shadow-xl relative overflow-hidden">
+                    {{-- Logo and Title Section --}}
+                    <div class="text-center mb-8">
+                        <img class="mx-auto h-20 w-auto floating-leaf" src="{{ asset('assets/images/logo.png') }}"
+                            alt="Logo">
+                        <h2 class="mt-6 text-3xl font-bold text-green-800">
+                            Join Our Garden Paradise
+                        </h2>
+                        <p class="mt-2 text-sm text-green-600">
+                            Create your account and start growing with us
+                        </p>
+                    </div>
+
+                    {{-- Error Messages --}}
+                    @if ($errors->any())
+                        <div class="mb-6 bg-red-100/80 backdrop-blur border-l-4 border-red-500 text-red-700 p-4 rounded-lg">
+                            <p class="font-bold">Please check the following:</p>
+                            <ul class="mt-2 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- Registration Form --}}
+                    <form action="{{ route('register') }}" method="POST" class="space-y-6">
+                        @csrf
+                        <div class="bg-white/50 backdrop-blur p-8 rounded-xl space-y-6 shadow-inner">
+                            <div class="form-group relative">
+                                <label for="name" class="block text-sm font-medium text-green-800 mb-2">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        Full Name
+                                    </span>
+                                </label>
+                                <input type="text" id="name" name="name" required
+                                    placeholder="Enter your full name"
+                                    class="garden-input mt-1 block w-full px-4 py-3 rounded-lg border-0 ring-1 ring-green-100 focus:ring-2 focus:ring-green-500 transition-all duration-300 hover:ring-green-200 placeholder:text-green-500">
+                            </div>
+
+                            <div class="form-group relative">
+                                <label for="email" class="block text-sm font-medium text-green-800 mb-2">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                        Email Address
+                                    </span>
+                                </label>
+                                <input type="email" id="email" name="email" required
+                                    placeholder="Enter your email address"
+                                    class="garden-input mt-1 block w-full px-4 py-3 rounded-lg border-0 ring-1 ring-green-100 focus:ring-2 focus:ring-green-500 transition-all duration-300 hover:ring-green-200 placeholder:text-green-300">
+                            </div>
+
+                            <div class="form-group relative">
+                                <label for="password" class="block text-sm font-medium text-green-800 mb-2">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                        Password
+                                    </span>
+                                </label>
+                                <input type="password" id="password" name="password" required
+                                    placeholder="Create a strong password"
+                                    class="garden-input mt-1 block w-full px-4 py-3 rounded-lg border-0 ring-1 ring-green-100 focus:ring-2 focus:ring-green-500 transition-all duration-300 hover:ring-green-200 placeholder:text-green-300">
+                            </div>
+
+                            <div class="form-group relative">
+                                <label for="password_confirmation" class="block text-sm font-medium text-green-800 mb-2">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                        </svg>
+                                        Confirm Password
+                                    </span>
+                                </label>
+                                <input type="password" id="password_confirmation" name="password_confirmation" required
+                                    placeholder="Confirm your password"
+                                    class="garden-input mt-1 block w-full px-4 py-3 rounded-lg border-0 ring-1 ring-green-100 focus:ring-2 focus:ring-green-500 transition-all duration-300 hover:ring-green-200 placeholder:text-green-300">
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full py-4 px-6 rounded-xl text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg font-medium text-lg">
+                            <span class="flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                Create Account
+                            </span>
+                        </button>
+
+                        <p class="text-center text-sm text-green-600">
+                            Already have an account?
+                            <a href="{{ route('login') }}"
+                                class="font-medium text-green-600 hover:text-green-500 transition-colors duration-300 border-b border-green-300 hover:border-green-500">
+                                Sign in
+                            </a>
+                        </p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</body>
-
-</html>
+@endsection
