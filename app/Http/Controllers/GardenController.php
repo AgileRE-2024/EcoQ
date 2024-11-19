@@ -45,6 +45,10 @@ class GardenController extends Controller
     public function show(Garden $garden)
     {
         //
+        if (Auth::user()->role != 'admin') {
+            return redirect()->route('gardens.index');
+        }
+        return view('dashboard.gardens.show', compact('garden'));
     }
 
     /**
