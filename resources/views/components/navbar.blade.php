@@ -48,27 +48,17 @@
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button type="submit"
-                        class="px-4 py-2 text-sm font-medium text-red-700 
-                               bg-white/50 backdrop-blur-sm
-                               border border-red-200 rounded-full
-                               hover:bg-red-50 hover:border-red-300 
-                               transition-all duration-300 ease-in-out
-                               shadow-sm hover:shadow-md">
-                        <span>LOGOUT</span>
+                        class="nav-button text-red-600 bg-white hover:bg-red-50 hover:border-red-300">
+                        LOGOUT
                     </button>
                 </form>
             @else
-                <a href="/login"
-                    class="px-4 py-2 text-sm font-medium text-green-700 
-                           bg-white/50 backdrop-blur-sm
-                           border border-green-200 rounded-full
-                           hover:bg-green-50 hover:border-green-300 
-                           transition-all duration-300 ease-in-out
-                           shadow-sm hover:shadow-md">
-                    <span>LOGIN</span>
+                <a href="/login" class="nav-button">
+                    LOGIN
                 </a>
             @endif
         </div>
+
 
         <!-- Mobile Menu Button -->
         <div class="md:hidden">
@@ -153,7 +143,71 @@
     .floating-leaf {
         animation: float 5s ease-in-out infinite;
     }
+
+    /* General Navigation Styles */
+    .nav-link {
+        position: relative;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: #4a4a4a;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #2d6a4f;
+        /* Warna hijau lebih tua saat hover */
+    }
+
+    /* Underline Animation */
+    .nav-link-underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #2d6a4f;
+        /* Warna underline hijau */
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover .nav-link-underline {
+        width: 100%;
+    }
+
+    /* Button Styles */
+    .nav-button {
+        display: inline-block;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: white;
+        background: #2d6a4f;
+        border: 2px solid transparent;
+        border-radius: 999px;
+        /* Membuat tombol bulat */
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-button:hover {
+        background: #95d5b2;
+        color: #2d6a4f;
+        border-color: #2d6a4f;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Active State */
+    .nav-link.active {
+        color: #2d6a4f;
+        font-weight: bold;
+    }
 </style>
+
+
 
 <script>
     document.getElementById('mobile-menu-button').addEventListener('click', function() {
