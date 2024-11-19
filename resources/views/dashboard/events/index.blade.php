@@ -29,6 +29,10 @@
                             <tr>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Event Image
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Title</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -52,6 +56,13 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($events as $event)
                                 <tr class="hover:bg-gray-50 transition-colors duration-150 ease-in-out">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex-shrink-0 h-20 w-20">
+                                            <img class="h-20 w-20 rounded-lg object-cover"
+                                                 src="{{ $event->image ? asset('storage/images/events/' . $event->image) : asset('assets/images/event.jpeg') }}"
+                                                 alt="{{ $event->name }}">
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">{{ $event->title }}</div>
                                     </td>

@@ -7,5 +7,7 @@
 
     <!-- Kegiatan Section -->
     @include('components.kegiatan-section')
+
+    <!-- About Us -->
     @include('components.about-us')
 @endsection

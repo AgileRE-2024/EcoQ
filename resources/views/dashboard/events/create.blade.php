@@ -62,6 +62,29 @@
                             placeholder="Event Location">
                     </div>
 
+                    <!-- Image Upload Section -->
+                    <div class="bg-blue-50 rounded-xl p-6 mb-8">
+                        <h2 class="text-xl font-semibold text-blue-800 mb-6">Event Image</h2>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="image"
+                                   class="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 transition duration-300">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-12 h-12 mb-4 text-blue-500" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                        </path>
+                                    </svg>
+                                    <p class="mb-2 text-sm text-blue-600"><span class="font-medium">Click to
+                                                upload</span> or drag and drop</p>
+                                    <p class="text-xs text-blue-500">PNG, JPG or JPEG (MAX. 2MB)</p>
+                                </div>
+                                <input type="file" name="image" id="image" class="hidden"
+                                       accept="image/*" />
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- Garden ID (Hidden) -->
                     <input type="hidden" name="garden_id" value="{{ Auth::user()->garden->id }}">
 

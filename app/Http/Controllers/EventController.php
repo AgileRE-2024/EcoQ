@@ -46,12 +46,20 @@ class EventController extends Controller
         $request->validated();
 
         try {
-            Event::create([
+            $imageName = null;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = $request->name . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images/events/', $imageName);
+            }
+
+            $event = Event::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'date' => $request->date,
                 'time' => $request->time,
                 'location' => $request->location,
+                'image' => $imageName,
                 'garden_id' => $request->garden_id,
             ]);
 

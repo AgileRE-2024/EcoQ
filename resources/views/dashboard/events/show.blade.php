@@ -17,6 +17,20 @@
 
             <!-- Event Details Card -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <!-- Hero Section with Image -->
+                @if ($event->image)
+                <div class="relative h-[400px] bg-gray-900">
+                    <img src="{{ asset('storage/images/events/' . $event->image) }}" alt="{{ $event->name }}"
+                         class="w-full h-full object-cover opacity-90">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <h1 class="absolute bottom-6 left-8 text-4xl font-bold text-white">{{ $event->name }}</h1>
+                </div>
+                @else
+                <div class="bg-gradient-to-r from-green-600 to-green-800 py-12 px-8">
+                    <h1 class="text-4xl font-bold text-white">{{ event->name }}</h1>
+                </div>
+                @endif
+
                 <div class="p-6">
                     <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $event->name }}</h1>
 
