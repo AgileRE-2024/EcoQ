@@ -33,7 +33,7 @@
         <div class="hidden md:flex items-center space-x-8">
             @foreach ([
         'HOME' => ['/', 'home'],
-        'KATALOG' => ['/katalog', 'book-open'],
+        'KATALOG' => ['/plants', 'book-open'],
         'KEGIATAN' => ['/kegiatan', 'calendar'],
     ] as $name => [$url, $icon])
                 <a href="{{ $url }}"
