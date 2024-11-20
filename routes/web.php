@@ -11,6 +11,8 @@ use App\Http\Controllers\CommentController;
 
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/plants', [PageController::class, 'plants'])->name('plants');
+Route::get('/events', action: [EventController::class, 'events'])->name('events');
+Route::get('/gardens', action: [PageController::class, 'indexGardens'])->name('indexGardens');
 Route::get('/plants/{plant}', [PageController::class, 'showPlant'])->name('plant');
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plant;
+use App\Models\Garden;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -85,5 +86,14 @@ class PageController extends Controller
             ->get();
 
         return view("pages.plants.show", compact("plant", "relatedPlants"));
+    }
+
+
+    public function indexGardens()
+    {
+        $gardens = Garden::orderBy("name", "asc")->paginate(5);
+        $featuredGardens =
+            Garden::orderBy("name", "asc")->paginate(5);
+        return view("pages.gardens.index", compact("gardens", "featuredGardens"));
     }
 }
