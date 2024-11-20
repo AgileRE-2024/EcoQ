@@ -7,8 +7,10 @@ use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GardenController;
+use App\Http\Controllers\KegiatanController;
 
 Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -18,6 +20,8 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::resource('events', EventController::class);
     Route::resource('gardens', GardenController::class);
+
+
 });
 
 require __DIR__ . '/auth.php';
