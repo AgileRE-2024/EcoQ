@@ -124,6 +124,52 @@
                             </div>
                         </div>
 
+                        <div class="bg-indigo-50 rounded-xl p-6 mb-8">
+                            <h2 class="text-xl font-semibold text-indigo-800 mb-6">Additional Plant Images</h2>
+
+                            <div x-data="imageUploader()" class="space-y-4">
+                                <div x-on:dragover.prevent="$event.dataTransfer.dropEffect = 'copy'"
+                                    x-on:drop.prevent="handleDrop($event)"
+                                    class="flex items-center justify-center w-full">
+                                    <label for="images"
+                                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-indigo-300 border-dashed rounded-lg cursor-pointer bg-indigo-50 hover:bg-indigo-100 transition duration-300">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <svg class="w-12 h-12 mb-4 text-indigo-500" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                                </path>
+                                            </svg>
+                                            <p class="mb-2 text-sm text-indigo-600">
+                                                <span class="font-medium">Click to upload</span> or drag and drop
+                                            </p>
+                                            <p class="text-xs text-indigo-500">PNG, JPG or JPEG (MAX. 2MB each)</p>
+                                        </div>
+                                        <input type="file" name="images[]" id="images" class="hidden"
+                                            accept="image/png,image/jpeg,image/jpg" multiple
+                                            x-on:change="handleFileSelect($event)" />
+                                    </label>
+                                </div>
+
+                                <div class="mt-4 flex flex-wrap gap-4" x-ref="previewContainer">
+                                    <template x-for="(image, index) in images" :key="index">
+                                        <div class="relative group">
+                                            <img :src="image.preview" class="w-32 h-32 object-cover rounded-lg" />
+                                            <button type="button" @click="removeImage(index)"
+                                                class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <!-- Classification Section -->
                         <div class="bg-purple-50 rounded-xl p-6 mb-8">
                             <h2 class="text-xl font-semibold text-purple-800 mb-6">Classification</h2>
@@ -254,6 +300,8 @@
     </div>
 
     <!-- JavaScript for Dynamic Parts Used -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let partIndex = 1; // Start indexing for dynamic parts
@@ -284,5 +332,37 @@
                 this.closest('.usedPartRow').remove();
             });
         });
+
+        function imageUploader() {
+            return {
+                images: [],
+                handleFileSelect(event) {
+                    this.addFiles(event.target.files);
+                },
+                handleDrop(event) {
+                    this.addFiles(event.dataTransfer.files);
+                },
+                addFiles(files) {
+                    const validFiles = Array.from(files).filter(file => ['image/png', 'image/jpeg', 'image/jpg'].includes(
+                            file.type) &&
+                        file.size <= 2 * 1024 * 1024
+                    );
+
+                    validFiles.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.images.push({
+                                file: file,
+                                preview: e.target.result
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                },
+                removeImage(index) {
+                    this.images.splice(index, 1);
+                }
+            }
+        }
     </script>
 @endsection

@@ -56,7 +56,7 @@ class Plant extends Model
     /**
      * Get the part used for the plant.
      */
-    public function partUsed(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function partUseds(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(PartUsed::class);
     }
@@ -67,5 +67,10 @@ class Plant extends Model
     public function pharmacologyAspect(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(PharmocologyAspect::class);
+    }
+
+    public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PlantImage::class);
     }
 }
