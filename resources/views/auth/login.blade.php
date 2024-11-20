@@ -202,7 +202,7 @@
     @endpush
 
     {{-- Main Container with proper spacing --}}
-    <div class="min-h-screen pt-20 pb-16">
+    <div class="min-h-screen pt-32 pb-16">
         {{-- Decorative Leaves --}}
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             {{-- Floating Leaves --}}

@@ -100,7 +100,7 @@
     @endpush
 
     {{-- Main Container with proper spacing for navbar --}}
-    <div class="min-h-screen pt-20 pb-16"> {{-- Added pt-20 for navbar space --}}
+    <div class="min-h-screen pt-32 pb-16"> {{-- Added pt-20 for navbar space --}}
         {{-- Background Blobs --}}
         <div class="fixed inset-0 pointer-events-none overflow-hidden">
             <div

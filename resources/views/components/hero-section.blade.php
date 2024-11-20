@@ -43,7 +43,7 @@
 
                 <div
                     class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
-                    <a href="/katalog"
+                    <a href={{ route('plants') }}
                         class="group px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold rounded-full shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-1 transition duration-300 ease-in-out">
                         <span class="flex items-center justify-center space-x-2">
                             <span>Explore Catalog</span>
