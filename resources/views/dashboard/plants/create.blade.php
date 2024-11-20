@@ -104,7 +104,9 @@
                         <!-- Image Upload Section -->
                         <div class="bg-blue-50 rounded-xl p-6 mb-8">
                             <h2 class="text-xl font-semibold text-blue-800 mb-6">Plant Image</h2>
-                            <div class="flex items-center justify-center w-full">
+                            <div x-on:dragover.prevent="$event.dataTransfer.dropEffect = 'copy'"
+                                 x-on:drop.prevent="handleDrop($event)"
+                                 class="flex items-center justify-center w-full">
                                 <label for="image"
                                     class="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 transition duration-300">
                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -119,7 +121,9 @@
                                         <p class="text-xs text-blue-500">PNG, JPG or JPEG (MAX. 2MB)</p>
                                     </div>
                                     <input type="file" name="image" id="image" class="hidden"
-                                        accept="image/*" />
+                                        accept="image/*"
+                                        x-on:change="handleFileSelect($event)"/>
+
                                 </label>
                             </div>
                         </div>
