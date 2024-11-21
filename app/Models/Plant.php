@@ -27,6 +27,7 @@ class Plant extends Model
         'qr_image',
         'image',
         'garden_id',
+        'species_id',
     ];
 
     /**
@@ -35,14 +36,6 @@ class Plant extends Model
     public function garden(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Garden::class);
-    }
-
-    /**
-     * Get the classification for the plant.
-     */
-    public function classification(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(Classification::class);
     }
 
     /**
@@ -72,5 +65,40 @@ class Plant extends Model
     public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(PlantImage::class);
+    }
+
+    public function species(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Species::class);
+    }
+
+    public function genus()
+    {
+        return $this->species->genus();
+    }
+
+    public function family()
+    {
+        return $this->genus->family();
+    }
+
+    public function order()
+    {
+        return $this->family->order();
+    }
+
+    public function class()
+    {
+        return $this->order->class();
+    }
+
+    public function phylum()
+    {
+        return $this->class->phylum();
+    }
+
+    public function kingdom()
+    {
+        return $this->phylum->kingdom();
     }
 }

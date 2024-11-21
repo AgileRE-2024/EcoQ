@@ -8,10 +8,30 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\GardenController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TaxonomyController;
+
+Route::prefix('/api')->group(function () {
+    Route::get('/kingdoms', [TaxonomyController::class, 'getKingdoms'])->name('taxonomy.kingdoms');
+    Route::get('/phylums', [TaxonomyController::class, 'getPhylums'])->name('taxonomy.phylums');
+    Route::get('/classes', [TaxonomyController::class, 'getClasses'])->name('taxonomy.classes');
+    Route::get('/orders', [TaxonomyController::class, 'getOrders'])->name('taxonomy.orders');
+    Route::get('/families', [TaxonomyController::class, 'getFamilies'])->name('taxonomy.families');
+    Route::get('/genera', [TaxonomyController::class, 'getGenera'])->name('taxonomy.genuses');
+    Route::get('/species', [TaxonomyController::class, 'getSpecies'])->name('taxonomy.species');
+});
+Route::prefix('/api')->group(function () {
+    Route::get('/kingdoms', [TaxonomyController::class, 'getKingdoms'])->name('taxonomy.kingdom');
+    Route::get('/phylums', [TaxonomyController::class, 'getPhylums'])->name('taxonomy.phylum');
+    Route::get('/classes', [TaxonomyController::class, 'getClasses'])->name('taxonomy.class');
+    Route::get('/orders', [TaxonomyController::class, 'getOrders'])->name('taxonomy.order');
+    Route::get('/families', [TaxonomyController::class, 'getFamilies'])->name('taxonomy.family');
+    Route::get('/genera', [TaxonomyController::class, 'getGenera'])->name('taxonomy.genus');
+    Route::get('/species', [TaxonomyController::class, 'getSpecies'])->name('taxonomy.species');
+});
 
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/plants', [PageController::class, 'plants'])->name('plants');
-Route::get('/events', action: [EventController::class, 'events'])->name('events');
+Route::get('/events', action: [PageController::class, 'indexEvents'])->name('indexEvents');
 Route::get('/gardens', action: [PageController::class, 'indexGardens'])->name('indexGardens');
 Route::get('/plants/{plant}', [PageController::class, 'showPlant'])->name('plant');
 

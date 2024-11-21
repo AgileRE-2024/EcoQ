@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Models\Garden;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
@@ -18,7 +19,8 @@ class EventController extends Controller
         //
         if (Auth::user()->role == 'admin') {
             $events = Event::paginate(5);
-            return view('dashboard.events.index', compact('events'));
+            $gardens = Garden::all();
+            return view('dashboard.events.index', compact('events', 'gardens'));
         } else if (Auth::user()->role == 'garden_owner') {
             $events = Event::where('garden_id', Auth::user()->garden->id)->paginate(5);
             return view('dashboard.events.index', compact('events'));
@@ -62,6 +64,16 @@ class EventController extends Controller
                 'image' => $imageName,
                 'garden_id' => $request->garden_id,
             ]);
+
+            if (is_array($request->images)) {
+                foreach ($request->images as $index => $image) {
+                    $imageName = $request->name . '-' . $index . '.' . $image->getClientOriginalExtension();
+                    $image->storeAs('public/images/events/', $imageName);
+                    $event->images()->create([
+                        'image_url' => $imageName,
+                    ]);
+                }
+            }
 
             return redirect()->route('events.index')->with('status', 'event-created');
         } catch (\Exception $e) {

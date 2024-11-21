@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plant;
+use App\Models\Kingdom;
+use App\Models\Phylum;
+use App\Models\PlantClass;
+use App\Models\Order;
+use App\Models\Family;
+use App\Models\Genus;
+use App\Models\Species;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePlantRequest;
 use App\Http\Requests\UpdatePlantRequest;
@@ -55,6 +62,7 @@ class PlantController extends Controller
         $request->validated();
 
         try {
+            // Upload gambar utama
             $imageName = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -62,7 +70,16 @@ class PlantController extends Controller
                 $image->storeAs('public/images/plants/', $imageName);
             }
 
+            // Tangani taksonomi berjenjang
+            $kingdom = Kingdom::firstOrCreate(['name' => $request->kingdom]);
+            $phylum = Phylum::firstOrCreate(['name' => $request->phylum, 'kingdom_id' => $kingdom->id]);
+            $class = PlantClass::firstOrCreate(['name' => $request->class, 'phylum_id' => $phylum->id]); // Rename "Class" karena reserved word
+            $order = Order::firstOrCreate(['name' => $request->order, 'class_id' => $class->id]);
+            $family = Family::firstOrCreate(['name' => $request->family, 'order_id' => $order->id]);
+            $genus = Genus::firstOrCreate(['name' => $request->genus, 'family_id' => $family->id]);
+            $species = Species::firstOrCreate(['name' => $request->species, 'genus_id' => $genus->id]);
 
+            // Buat tanaman baru
             $plant = Plant::create([
                 'name' => $request->name,
                 'common_name' => $request->common_name,
@@ -73,18 +90,10 @@ class PlantController extends Controller
                 'image' => $imageName,
                 'qr_image' => null,
                 'garden_id' => Auth::user()->garden->id,
+                'species_id' => $species->id,
             ]);
 
-            $plant->classification()->create([
-                'kingdom' => $request->kingdom,
-                'division' => $request->division,
-                'class' => $request->class,
-                'order' => $request->order,
-                'family' => $request->family,
-                'genus' => $request->genus,
-                'species' => $request->species,
-            ]);
-
+            // Tambahkan aspek farmakologi
             $plant->pharmacologyAspect()->create([
                 'toxicity' => $request->toxicity,
                 'contraindications' => $request->contraindications,
@@ -93,16 +102,17 @@ class PlantController extends Controller
                 'precautions' => $request->precautions,
             ]);
 
+            // Tambahkan bagian yang digunakan (jika ada)
             if (is_array($request->parts)) {
                 foreach ($request->parts as $part) {
                     $plant->partUseds()->create([
                         'part' => $part['part'],
-                        'usage' => $part['usage'], // typo diperbaiki
+                        'usage' => $part['usage'],
                     ]);
                 }
             }
 
-
+            // Upload gambar tambahan (jika ada)
             if (is_array($request->images)) {
                 foreach ($request->images as $index => $image) {
                     $imageName = $request->name . '-' . $index . '.' . $image->getClientOriginalExtension();
@@ -113,9 +123,9 @@ class PlantController extends Controller
                 }
             }
 
+            // Generate QR Code
             $qrCodeData = route('plant', $plant->id); // URL halaman detail tanaman
             $qrCodePath = 'images/qr_codes/plant_' . $plant->id . '.png'; // Path untuk menyimpan QR code
-
             $builder = new Builder(
                 writer: new PngWriter(),
                 writerOptions: [],
@@ -129,20 +139,18 @@ class PlantController extends Controller
             );
 
             $result = $builder->build();
-
-            // Simpan QR code ke dalam folder storage
             $result->saveToFile(public_path('storage/' . $qrCodePath));
 
             // Update path QR code di database
             $plant->update(['qr_image' => $qrCodePath]);
 
-            // Update path QR code di database
             return redirect()->route('plants.index')->with('success', 'Plant created successfully');
         } catch (\Exception $e) {
             Log::error($e->getMessage()); // Log the error message
             return redirect()->back()->with('error', 'Failed to create plant');
         }
     }
+
 
 
     /**
@@ -152,6 +160,8 @@ class PlantController extends Controller
     {
         //
         if (Auth::user()->role == 'admin' || (Auth::user()->role == 'garden_owner' && $plant->garden_id == Auth::user()->garden->id)) {
+            $plant = Plant::with('species.genus.family.order.class.phylum.kingdom')->findOrFail($plant->id);
+
             return view('dashboard.plants.show', compact('plant'));
         }
     }
@@ -165,6 +175,8 @@ class PlantController extends Controller
         if (!Auth::user()->role == 'garden_owner' || $plant->garden_id != Auth::user()->garden->id) {
             return redirect()->route('plants.index');
         }
+        $plant = Plant::with('species.genus.family.order.class.phylum.kingdom')->findOrFail($plant->id);
+
         return view('dashboard.plants.edit', compact('plant'));
     }
 
@@ -173,24 +185,29 @@ class PlantController extends Controller
      */
     public function update(UpdatePlantRequest $request, Plant $plant)
     {
-        //
-        if (!Auth::user()->role == 'garden_owner' || $plant->garden_id != Auth::user()->garden->id) {
-            return redirect()->route('plants.index');
-        }
+        abort_if(
+            Auth::user()->role != 'garden_owner' || $plant->garden_id != Auth::user()->garden->id,
+            403,
+            'Unauthorized action'
+        );
 
         $request->validated();
 
         try {
+            // Update gambar utama jika ada
             $imageName = $plant->image;
             if ($request->hasFile('image')) {
                 if ($imageName) {
                     Storage::delete('public/images/plants/' . $imageName);
                 }
-                $image = $request->file('image');
-                $imageName = $request->name . '_' . time() . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('public/images/plants/', $imageName);
+
+                // Simpan file thumbnail baru
+                $thumbnail = $request->file('image');
+                $imageName = $request->name . '_thumbnail_' . time() . '.' . $thumbnail->getClientOriginalExtension();
+                $thumbnail->storeAs('public/images/plants/', $imageName);
             }
 
+            // Update data tanaman
             $plant->update([
                 'name' => $request->name,
                 'common_name' => $request->common_name,
@@ -201,16 +218,18 @@ class PlantController extends Controller
                 'image' => $imageName,
             ]);
 
-            $plant->classification()->update([
-                'kingdom' => $request->kingdom,
-                'division' => $request->division,
-                'class' => $request->class,
-                'order' => $request->order,
-                'family' => $request->family,
-                'genus' => $request->genus,
-                'species' => $request->species,
-            ]);
+            // Update klasifikasi taksonomi
+            $kingdom = Kingdom::firstOrCreate(['name' => $request->kingdom]);
+            $phylum = Phylum::firstOrCreate(['name' => $request->phylum, 'kingdom_id' => $kingdom->id]);
+            $class = PlantClass::firstOrCreate(['name' => $request->class, 'phylum_id' => $phylum->id]);
+            $order = Order::firstOrCreate(['name' => $request->order, 'class_id' => $class->id]);
+            $family = Family::firstOrCreate(['name' => $request->family, 'order_id' => $order->id]);
+            $genus = Genus::firstOrCreate(['name' => $request->genus, 'family_id' => $family->id]);
+            $species = Species::firstOrCreate(['name' => $request->species, 'genus_id' => $genus->id]);
 
+            $plant->update(['species_id' => $species->id]);
+
+            // Update aspek farmakologi
             $plant->pharmacologyAspect()->update([
                 'toxicity' => $request->toxicity,
                 'contraindications' => $request->contraindications,
@@ -219,13 +238,39 @@ class PlantController extends Controller
                 'precautions' => $request->precautions,
             ]);
 
+            // Hapus bagian yang digunakan sebelumnya
+            $plant->partUseds()->delete();
 
-            $plant->partUsed()->delete();
-            if (is_array($request->parts)) {
+            // Tambahkan bagian yang digunakan baru
+            if ($request->has('parts') && is_array($request->parts)) {
                 foreach ($request->parts as $part) {
-                    $plant->partUsed()->create([
-                        'part' => $part['part'],
-                        'usage' => $part['usage'], // typo diperbaiki
+                    if (!empty($part['part']) && !empty($part['usage'])) {
+                        $plant->partUseds()->create([
+                            'part' => $part['part'],
+                            'usage' => $part['usage'],
+                        ]);
+                    }
+                }
+            }
+
+            $additionalImages = $plant->images;
+
+            if ($request->has('images')) {
+                foreach ($additionalImages as $image) {
+                    // Hapus file dari storage
+                    Storage::delete('public/images/plants/' . $image->image_url);
+                }
+                // Hapus data gambar tambahan dari database
+                $plant->images()->delete();
+            }
+
+            // Tambahkan gambar tambahan baru hanya jika 'images' ada pada request
+            if ($request->has('images') && is_array($request->images)) {
+                foreach ($request->images as $index => $image) {
+                    $imageName = $request->name . '-' . $index . '.' . $image->getClientOriginalExtension();
+                    $image->storeAs('public/images/plants/', $imageName);
+                    $plant->images()->create([
+                        'image_url' => $imageName,
                     ]);
                 }
             }
@@ -236,6 +281,7 @@ class PlantController extends Controller
             return redirect()->back()->with('error', 'Failed to update plant');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -42,8 +42,9 @@ class UpdatePlantRequest extends FormRequest
             'side_effects' => 'nullable|string|max:500',
             'warnings' => 'nullable|string|max:500',
             'precautions' => 'nullable|string|max:500',
-            'parts.*.part' => 'nullable|string|max:255',
-            'parts.*.usege' => 'nullable|string|max:255',
+            'parts' => 'array', // Memastikan bahwa `parts` adalah array
+            'parts.*.name' => 'nullable|string', // Setiap elemen harus memiliki kunci `name`
+            'parts.*.description' => 'nullable|string', // Setiap elemen harus memiliki kunci `description`
         ];
     }
 }

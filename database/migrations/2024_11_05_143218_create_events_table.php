@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->foreignId('garden_id')->constrained()->cascadeOnDelete();
+            $table->string('image')->nullable();
             $table->string('title');
             $table->text('description');
             $table->date('date');

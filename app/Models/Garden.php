@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Garden extends Model
 {
-    /** @use HasFactory<\Database\Factories\GardenFactory> */
     use HasFactory;
 
     protected $table = 'gardens';
@@ -21,7 +20,12 @@ class Garden extends Model
         'name',
         'location',
         'description',
+        'image',
         'user_id',
+        'phone_number',
+        'open_time',
+        'close_time',
+
     ];
 
     /**
@@ -46,5 +50,10 @@ class Garden extends Model
     public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Event::class);
+    }
+
+    public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(GardenImage::class);
     }
 }

@@ -30,6 +30,9 @@ class StoreEventRequest extends FormRequest
             'time' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'garden_id' => 'required|exists:gardens,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
     }
 }

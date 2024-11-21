@@ -34,4 +34,9 @@ class Event extends Model
     {
         return $this->belongsTo(Garden::class);
     }
+
+    public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(EventImage::class);
+    }
 }

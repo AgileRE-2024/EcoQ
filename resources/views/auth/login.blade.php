@@ -82,29 +82,6 @@
                 z-index: -1;
             }
 
-            .leaf-1 {
-                animation: float 6s ease-in-out infinite;
-                top: 10%;
-                left: 5%;
-            }
-
-            .leaf-2 {
-                animation: float 7s ease-in-out infinite 1s;
-                top: 20%;
-                right: 5%;
-            }
-
-            .leaf-3 {
-                animation: float 5s ease-in-out infinite 0.5s;
-                bottom: 10%;
-                left: 10%;
-            }
-
-            .leaf-4 {
-                animation: float 8s ease-in-out infinite 1.5s;
-                bottom: 20%;
-                right: 10%;
-            }
 
             .animated-gradient {
                 background: linear-gradient(270deg, #22c55e, #059669, #047857);
@@ -205,27 +182,18 @@
     <div class="min-h-screen pt-32 pb-16">
         {{-- Decorative Leaves --}}
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            {{-- Floating Leaves --}}
-            <svg class="decorative-leaf leaf-1 w-24 h-24 text-green-200" viewBox="0 0 24 24">
-                <path d="M12 2L8 6V9L4 13V17L8 21H12L16 17V13L20 9V6L16 2H12Z" />
-            </svg>
-            <svg class="decorative-leaf leaf-2 w-16 h-16 text-emerald-200" viewBox="0 0 24 24">
-                <path
-                    d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z" />
-            </svg>
-            <svg class="decorative-leaf leaf-3 w-20 h-20 text-green-100" viewBox="0 0 24 24">
-                <path d="M12 22C16.97 22 21 17.97 21 13V4C21 4 15.97 2 12 2C8.03 2 3 4 3 4V13C3 17.97 7.03 22 12 22Z" />
-            </svg>
-            <svg class="decorative-leaf leaf-4 w-28 h-28 text-emerald-100" viewBox="0 0 24 24">
-                <path d="M12 22C16.97 22 21 17.97 21 13V4C21 4 15.97 2 12 2C8.03 2 3 4 3 4V13C3 17.97 7.03 22 12 22Z" />
-            </svg>
 
             {{-- Background Pattern --}}
-            <div class="absolute inset-0 opacity-5">
-                <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60"
-                    height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath
-                    d="M54.627,25.6c0,0-20.8-21.6-42.667,0C11.96,25.6-8.84,47.2,12.627,47.2s41.6-21.6,41.6-21.6"
-                    style="fill:none;stroke:%2322c55e;stroke-width:2;stroke-opacity:0.2"/%3E%3C/svg%3E')"></div>
+            <div class="fixed inset-0 pointer-events-none overflow-hidden">
+                <div
+                    class="absolute top-1/4 left-1/4 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
+                </div>
+                <div
+                    class="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000">
+                </div>
+                <div
+                    class="absolute bottom-1/4 left-1/3 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000">
+                </div>
             </div>
         </div>
 

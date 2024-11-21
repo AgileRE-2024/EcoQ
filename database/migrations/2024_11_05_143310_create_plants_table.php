@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('plants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('garden_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('species_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('common_name')->nullable();
             $table->string('scientific_name')->nullable();

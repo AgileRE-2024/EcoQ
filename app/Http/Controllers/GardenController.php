@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Garden;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGardenRequest;
 use App\Http\Requests\UpdateGardenRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class GardenController extends Controller
 {
@@ -28,7 +31,9 @@ class GardenController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->role == 'admin') {
+            return view('dashboard.gardens.create');
+        }
     }
 
     /**
@@ -37,6 +42,34 @@ class GardenController extends Controller
     public function store(StoreGardenRequest $request)
     {
         //
+        if (Auth::user()->role == 'admin') {
+            $request->validated();
+
+            try {
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'phone' => $request->phone,
+                    'date_of_birth' => $request->date_of_birth,
+                    'address' => $request->address,
+                    'role' => 'garden_owner',
+                ]);
+
+                Garden::create([
+                    'name' => $request->name,
+                    'address' => $request->address,
+                    'user_id' => $user->id,
+                ]);
+
+                return redirect()->route('gardens.index')->with('success', 'Garden created successfully');
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                return redirect()->route('gardens.create')->with('error', $e->getMessage());
+            }
+        } else {
+            return redirect()->route('gardens.index')->with('error', ' You are not authorized to create a garden');
+        }
     }
 
     /**

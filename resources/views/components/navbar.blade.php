@@ -67,7 +67,7 @@
                 <div class="h-0.5 w-0 group-hover:w-full bg-green-500 transition-all duration-300 ease-out"></div>
             </a>
 
-            <a href="{{ route('events') }}" class="nav-item group">
+            <a href="{{ route('indexEvents') }}" class="nav-item group">
                 <div class="flex items-center space-x-2 py-2">
                     <svg class="w-4 h-4 text-green-600 group-hover:scale-110 transition-transform duration-300"
                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -171,7 +171,7 @@
                 </svg>
                 <span>Katalog</span>
             </a>
-            <a href="{{ route('events') }}" class="mobile-link">
+            <a href="{{ route('indexEvents') }}" class="mobile-link">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
