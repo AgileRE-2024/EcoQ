@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Plant extends Model
 {
     /** @use HasFactory<\Database\Factories\PlantFactory> */
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $table = 'plants';
 
@@ -101,4 +102,28 @@ class Plant extends Model
     {
         return $this->phylum->kingdom();
     }
+
+    public function PlantTags()
+    {
+        return $this->hasMany(PlantTag::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'plant_tags', 'plant_id', 'tag_id');
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'common_name' => $this->common_name,
+            'scientific_name' => $this->scientific_name,
+            'description' => $this->description,
+            'habitat' => $this->habitat,
+            'chemical_compounds' => $this->chemical_compounds,
+        ];
+    }
+
+    protected $with = ['tags'];
 }

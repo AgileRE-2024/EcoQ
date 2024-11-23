@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Models\Event;
 use App\Models\Plant;
 use App\Models\Garden;
-use App\Models\Event;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 
 class PageController extends Controller
 {
@@ -78,16 +81,20 @@ class PageController extends Controller
 
     public function showPlant(Plant $plant)
     {
-        $relatedPlants = Plant::where('id', '!=', $plant->id)
-            ->whereHas('classification', function ($query) use ($plant) {
-                $query->where('genus', $plant->classification->genus)
-                    ->orWhere('family', $plant->classification->family);
+        $familyId = $plant->genus->family->id;
+
+        $relatedPlants = Plant::where('plants.id', '!=', $plant->id) // Hindari plant saat ini
+            ->whereHas('tags', function ($query) use ($plant) {
+                $query->whereIn('tags.id', $plant->tags->pluck('id')); // Cocokkan tags dengan plant saat ini
             })
-            ->take(4)
+            ->take(4) // Batasi hasil ke 4 tanaman
             ->get();
+
 
         return view("pages.plants.show", compact("plant", "relatedPlants"));
     }
+
+
 
 
     public function indexGardens()
@@ -102,5 +109,30 @@ class PageController extends Controller
     {
         $events = Event::orderBy("title", "asc")->paginate(5);
         return view("pages.events.index", compact("events"));
+    }
+
+    public function downloadQrCode(Plant $plant)
+    {
+        $pdf = app('dompdf.wrapper');
+        $contxt = stream_context_create(['ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ]]);
+
+        $pdf = PDF::setOptions([
+            'tempDir' => public_path(),
+            'chroot' => public_path(),
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+
+        ]);
+
+        $pdf->getDomPDF()->setHttpContext($contxt);
+
+
+        $pdf = Pdf::loadView("pages.export-pdf", compact("plant"));
+        $pdf->setPaper("Ap", "landscape");
+        return $pdf->stream($plant->name . ".pdf");
     }
 }

@@ -371,6 +371,41 @@
                             </div>
                         </div>
                     @endif
+                    <!-- Tags Section -->
+                    <div
+                        class="mt-8 bg-gradient-to-br from-teal-50 to-emerald-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-3 bg-teal-100 rounded-full">
+                                <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-teal-800">Plant Tags</h2>
+                                <p class="text-teal-600">Categories and characteristics</p>
+                            </div>
+                        </div>
+
+                        @if ($plant->tags->isNotEmpty())
+                            <div class="flex flex-wrap gap-2">
+                                @foreach ($plant->tags as $tag)
+                                    <span
+                                        class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-teal-100 text-teal-800 hover:bg-teal-200 transition-colors duration-200">
+                                        <svg class="w-4 h-4 mr-1.5 text-teal-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+                                        </svg>
+                                        {{ $tag->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-center text-gray-500 py-4">No tags available for this plant.</p>
+                        @endif
+                    </div>
                     <!-- Comments Section -->
                     <div
                         class="mt-8 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -387,6 +422,7 @@
                                 <p class="text-indigo-600">Join the discussion about this plant</p>
                             </div>
                         </div>
+
 
                         <!-- Comments List -->
                         <div class="space-y-6">

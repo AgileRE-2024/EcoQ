@@ -465,102 +465,6 @@
                             </div>
                         </div>
 
-                        <!-- Pharmacology Section -->
-                        <div
-                            class="bg-gradient-to-br from-amber-50 to-orange-100 rounded-xl p-8 mb-8 shadow-lg relative overflow-hidden">
-                            <div
-                                class="absolute top-0 right-0 w-40 h-40 bg-orange-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
-                            </div>
-
-                            <h2 class="text-2xl font-semibold text-orange-800 mb-6 relative">
-                                Pharmacological Aspects
-                                <span class="absolute bottom-0 left-0 w-20 h-1 bg-orange-500 rounded-full"></span>
-                            </h2>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="relative group">
-                                    <label for="toxicity"
-                                        class="block text-sm font-medium text-orange-700 mb-2">Toxicity</label>
-                                    <textarea name="toxicity" id="toxicity" rows="3"
-                                        class="w-full px-4 py-2 rounded-lg border-2 border-orange-200 focus:border-orange-500 focus:ring focus:ring-orange-200 transition duration-200 bg-white bg-opacity-80 backdrop-filter backdrop-blur-sm resize-none"
-                                        placeholder="Enter toxicity information"></textarea>
-                                    <div
-                                        class="absolute top-8 right-2 pointer-events-none text-orange-500 opacity-0 group-focus-within:opacity-100 transition-opacity">
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="relative group">
-                                    <label for="contraindications"
-                                        class="block text-sm font-medium text-orange-700 mb-2">Contraindications</label>
-                                    <textarea name="contraindications" id="contraindications" rows="3"
-                                        class="w-full px-4 py-2 rounded-lg border-2 border-orange-200 focus:border-orange-500 focus:ring focus:ring-orange-200 transition duration-200 bg-white bg-opacity-80 backdrop-filter backdrop-blur-sm resize-none"
-                                        placeholder="Enter contraindications"></textarea>
-                                    <div
-                                        class="absolute top-8 right-2 pointer-events-none text-orange-500 opacity-0 group-focus-within:opacity-100 transition-opacity">
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="relative group">
-                                    <label for="warnings"
-                                        class="block text-sm font-medium text-orange-700 mb-2">Warnings</label>
-                                    <textarea name="warnings" id="warnings" rows="3"
-                                        class="w-full px-4 py-2 rounded-lg border-2 border-orange-200 focus:border-orange-500 focus:ring focus:ring-orange-200 transition duration-200 bg-white bg-opacity-80 backdrop-filter backdrop-blur-sm resize-none"
-                                        placeholder="Enter warnings"></textarea>
-                                    <div
-                                        class="absolute top-8 right-2 pointer-events-none text-orange-500 opacity-0 group-focus-within:opacity-100 transition-opacity">
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="relative group">
-                                    <label for="precautions"
-                                        class="block text-sm font-medium text-orange-700 mb-2">Precautions</label>
-                                    <textarea name="precautions" id="precautions" rows="3"
-                                        class="w-full px-4 py-2 rounded-lg border-2 border-orange-200 focus:border-orange-500 focus:ring focus:ring-orange-200 transition duration-200 bg-white bg-opacity-80 backdrop-filter backdrop-blur-sm resize-none"
-                                        placeholder="Enter precautions"></textarea>
-                                    <div
-                                        class="absolute top-8 right-2 pointer-events-none text-orange-500 opacity-0 group-focus-within:opacity-100 transition-opacity">
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="relative group md:col-span-2">
-                                    <label for="side_effects" class="block text-sm font-medium text-orange-700 mb-2">Side
-                                        Effects</label>
-                                    <textarea name="side_effects" id="side_effects" rows="3"
-                                        class="w-full px-4 py-2 rounded-lg border-2 border-orange-200 focus:border-orange-500 focus:ring focus:ring-orange-200 transition duration-200 bg-white bg-opacity-80 backdrop-filter backdrop-blur-sm resize-none"
-                                        placeholder="Enter side effects"></textarea>
-                                    <div
-                                        class="absolute top-8 right-2 pointer-events-none text-orange-500 opacity-0 group-focus-within:opacity-100 transition-opacity">
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
 
 
                         <!-- Pharmacology Section -->
@@ -727,6 +631,30 @@
                             </button>
                         </div>
 
+                        <!-- Tags Section -->
+                        <div
+                            class="bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl p-8 mb-8 shadow-lg relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-40 h-40 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
+                            </div>
+                            <div
+                                class="absolute -bottom-8 -left-8 w-40 h-40 bg-violet-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000">
+                            </div>
+
+                            <h2 class="text-2xl font-semibold text-purple-800 mb-6 relative">
+                                Tags
+                                <span class="absolute bottom-0 left-0 w-20 h-1 bg-purple-500 rounded-full"></span>
+                            </h2>
+
+                            <div class="relative group">
+                                <label for="tags" class="block text-sm font-medium text-purple-700 mb-2">Add
+                                    Tags</label>
+                                <input name="tags" id="tags" type="text"
+                                    class="w-full px-4 py-2 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 bg-white bg-opacity-80 backdrop-filter backdrop-blur-sm"
+                                    placeholder="Add tags...">
+                            </div>
+                        </div>
+
 
                         <!-- Submit Button Section -->
                         <div class="flex justify-end mt-8">
@@ -769,10 +697,11 @@
             }
         </style>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     @endpush
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -883,6 +812,32 @@
                 reader.readAsDataURL(file);
             }
         }
+        // Initialize Tagify
+        var input = document.querySelector('input[name=tags]');
+        var tagify = new Tagify(input, {
+            maxTags: 10,
+            dropdown: {
+                maxItems: 20,
+                classname: "tags-look",
+                enabled: 0,
+                closeOnSelect: false
+            }
+        });
+
+        // Optional: Add suggestions
+        var suggestions = @json($tags ?? []); // Assuming you pass $tags from controller
+        if (suggestions.length) {
+            tagify.whitelist = suggestions;
+        }
+
+        // Optional: Handle events
+        tagify.on('add', function(e) {
+            console.log('Tag added:', e.detail);
+        });
+
+        tagify.on('remove', function(e) {
+            console.log('Tag removed:', e.detail);
+        });
 
         $(document).ready(function() {
             // Autocomplete for Kingdom

@@ -45,6 +45,7 @@ class UpdatePlantRequest extends FormRequest
             'parts' => 'array', // Memastikan bahwa `parts` adalah array
             'parts.*.name' => 'nullable|string', // Setiap elemen harus memiliki kunci `name`
             'parts.*.description' => 'nullable|string', // Setiap elemen harus memiliki kunci `description`
+            'tags' => 'nullable|string',
         ];
     }
 }

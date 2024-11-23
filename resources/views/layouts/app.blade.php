@@ -42,6 +42,7 @@
             /* Warna sudut scrollbar */
         }
     </style>
+    @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -66,6 +67,7 @@
 
         @include('components.footer')
     </div>
+    @stack('scripts')
 </body>
 
 </html>

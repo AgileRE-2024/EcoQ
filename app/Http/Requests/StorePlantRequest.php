@@ -23,20 +23,20 @@ class StorePlantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'common_name' => 'required|string|max:255',
-            'scientific_name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
+            'name' => 'nullable|string|max:255',
+            'common_name' => 'nullable|string|max:255',
+            'scientific_name' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:1000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'habitat' => 'nullable|string|max:255',
             'chemical_compounds' => 'nullable|string|max:255',
-            'kingdom' => 'required|string|max:255',
-            'phylum' => 'required|string|max:255',
-            'class' => 'required|string|max:255',
-            'order' => 'required|string|max:255',
-            'family' => 'required|string|max:255',
-            'genus' => 'required|string|max:255',
-            'species' => 'required|string|max:255',
+            'kingdom' => 'nullable|string|max:255',
+            'phylum' => 'nullable|string|max:255',
+            'class' => 'nullable|string|max:255',
+            'order' => 'nullable|string|max:255',
+            'family' => 'nullable|string|max:255',
+            'genus' => 'nullable|string|max:255',
+            'species' => 'nullable|string|max:255',
             'toxicity' => 'nullable|string|max:500',
             'contraindications' => 'nullable|string|max:500',
             'side_effects' => 'nullable|string|max:500',
@@ -45,6 +45,7 @@ class StorePlantRequest extends FormRequest
             'parts.*.part' => 'nullable|string|max:255',
             'parts.*.usege' => 'nullable|string|max:255',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tags' => 'nullable|string',
         ];
     }
 }

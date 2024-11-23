@@ -210,7 +210,7 @@
                                         <p class="text-sm text-gray-500 italic">{{ $plant->scientific_name }}</p>
                                     </div>
                                     <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
-                                        {{ $plant->classification->genus ?? 'Unclassified' }}
+                                        {{ $plant->genus->name ?? 'Unclassified' }}
                                     </span>
                                 </div>
 
@@ -218,18 +218,15 @@
                                 <div class="grid grid-cols-3 gap-2 text-center border-t border-b py-3 border-gray-100 mb-4">
                                     <div>
                                         <span class="block text-xs text-gray-500">Kingdom</span>
-                                        <span
-                                            class="font-semibold text-sm">{{ $plant->classification->kingdom ?? '-' }}</span>
+                                        <span class="font-semibold text-sm">{{ $plant->kingdom->name ?? '-' }}</span>
                                     </div>
                                     <div>
                                         <span class="block text-xs text-gray-500">Family</span>
-                                        <span
-                                            class="font-semibold text-sm">{{ $plant->classification->family ?? '-' }}</span>
+                                        <span class="font-semibold text-sm">{{ $plant->family->name ?? '-' }}</span>
                                     </div>
                                     <div>
                                         <span class="block text-xs text-gray-500">Species</span>
-                                        <span
-                                            class="font-semibold text-sm">{{ $plant->classification->species ?? '-' }}</span>
+                                        <span class="font-semibold text-sm">{{ $plant->species->name ?? '-' }}</span>
                                     </div>
                                 </div>
 

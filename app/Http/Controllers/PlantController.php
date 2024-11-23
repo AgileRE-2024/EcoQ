@@ -10,10 +10,10 @@ use App\Models\Order;
 use App\Models\Family;
 use App\Models\Genus;
 use App\Models\Species;
+use App\Models\Tag;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePlantRequest;
 use App\Http\Requests\UpdatePlantRequest;
-use DeepCopy\f001\B;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +22,7 @@ use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
-use SimpleQrcode;
+
 
 
 
@@ -51,7 +51,9 @@ class PlantController extends Controller
         if (!Auth::user()->role == 'garden_owner') {
             return redirect()->route('plants.index');
         }
-        return view('dashboard.plants.create');
+        $tags = Tag::pluck('name'); // Semua tag untuk autocomplete
+
+        return view('dashboard.plants.create', compact('tags'));
     }
 
     /**
@@ -62,11 +64,20 @@ class PlantController extends Controller
         $request->validated();
 
         try {
+            $tags = json_decode($request->tags, true);
+
+            if (!is_array($tags)) {
+                $tags = [];
+            }
+
+            $tagIds = collect($tags)->map(function ($tag) {
+                return Tag::firstOrCreate(['name' => $tag['value']])->id;
+            });
             // Upload gambar utama
             $imageName = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $imageName = $request->name . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $imageName = $request->name . '_thumbnail_' . time() . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('public/images/plants/', $imageName);
             }
 
@@ -92,6 +103,9 @@ class PlantController extends Controller
                 'garden_id' => Auth::user()->garden->id,
                 'species_id' => $species->id,
             ]);
+
+            $plant->tags()->sync($tagIds);
+
 
             // Tambahkan aspek farmakologi
             $plant->pharmacologyAspect()->create([
@@ -175,9 +189,15 @@ class PlantController extends Controller
         if (!Auth::user()->role == 'garden_owner' || $plant->garden_id != Auth::user()->garden->id) {
             return redirect()->route('plants.index');
         }
+        // Ambil tag yang ada untuk tanaman ini
+        $tags = $plant->tags->pluck('name')->toArray();
+
+        // Semua tag untuk autocomplete (opsional)
+        $allTags = Tag::pluck('name')->toArray();
         $plant = Plant::with('species.genus.family.order.class.phylum.kingdom')->findOrFail($plant->id);
 
-        return view('dashboard.plants.edit', compact('plant'));
+
+        return view('dashboard.plants.edit', compact('plant', 'tags', 'allTags'));
     }
 
     /**
@@ -194,6 +214,17 @@ class PlantController extends Controller
         $request->validated();
 
         try {
+            $tags = json_decode($request->tags, true);
+
+            if (!is_array($tags)) {
+                $tags = [];
+            }
+
+            $tagIds = collect($tags)->map(function ($tag) {
+                return Tag::firstOrCreate(['name' => $tag['value']])->id;
+            });
+            $plant->tags()->sync($tagIds);
+
             // Update gambar utama jika ada
             $imageName = $plant->image;
             if ($request->hasFile('image')) {

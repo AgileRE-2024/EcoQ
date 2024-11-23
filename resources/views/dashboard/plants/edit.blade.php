@@ -559,6 +559,31 @@
                                 </button>
                             </div>
                         </div>
+                        <!-- Tags Section -->
+                        <div
+                            class="bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl p-8 mb-8 shadow-lg relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-40 h-40 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
+                            </div>
+                            <div
+                                class="absolute -bottom-8 -left-8 w-40 h-40 bg-violet-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000">
+                            </div>
+
+                            <h2 class="text-2xl font-semibold text-purple-800 mb-6 relative">
+                                Tags
+                                <span class="absolute bottom-0 left-0 w-20 h-1 bg-purple-500 rounded-full"></span>
+                            </h2>
+
+                            <div class="relative group">
+                                <label for="tags" class="block text-sm font-medium text-purple-700 mb-2">Add
+                                    Tags</label>
+                                <input name="tags" id="tags" type="text"
+                                    value="{{ implode(',', $plant->tags->pluck('name')->toArray()) }}"
+                                    {{-- Preload existing tags --}}
+                                    class="w-full px-4 py-2 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 bg-white bg-opacity-80 backdrop-filter backdrop-blur-sm"
+                                    placeholder="Add tags...">
+                            </div>
+                        </div>
 
                         <!-- Submit Button -->
                         <div class="flex justify-end">
@@ -575,306 +600,347 @@
 
 @endsection
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+@push('styles')
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+@endpush
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- JavaScript for Dynamic Parts Used -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 
 
-<!-- JavaScript for Dynamic Parts Used -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var input = document.querySelector('input[name=tags]');
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-
-    });
-
-    function handleDrop(event) {
-        const files = event.dataTransfer.files;
-        if (files.length > 0) {
-            const file = files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.querySelector('[x-data]').__x.$data.previewUrl = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function handleFileSelect(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.querySelector('[x-data]').__x.$data.previewUrl = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function imageUploader(existingImages) {
-        return {
-            images: existingImages.map(image => ({
-                image_url: `{{ asset('storage/images/plants') }}/${image.image_url}`,
-                preview: null
-            })),
-            handleDrop(event) {
-                const files = event.dataTransfer.files;
-                this.handleFiles(files);
-            },
-            handleFileSelect(event) {
-                const files = event.target.files;
-                this.handleFiles(files);
-            },
-            handleFiles(files) {
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.images.push({
-                            image_url: null,
-                            preview: e.target.result
-                        });
-                    };
-                    reader.readAsDataURL(file);
+            // Inisialisasi Tagify
+            var tagify = new Tagify(input, {
+                maxTags: 10, // Maksimal 10 tag
+                dropdown: {
+                    maxItems: 20,
+                    classname: "tags-look",
+                    enabled: 0, // Tampilkan dropdown saat mengetik
+                    closeOnSelect: false
                 }
-            },
-            removeImage(index) {
-                this.images.splice(index, 1);
+            });
+
+            // Tambahkan tag yang sudah ada (jika ada)
+            var existingTags = @json($tags ?? []);
+            if (existingTags.length) {
+                tagify.addTags(existingTags);
             }
-        };
-    }
 
-    $(document).ready(function() {
-        if ($("#kingdom").val()) {
-            $("#phylum").prop("disabled", false);
-        }
-        if ($("#phylum").val()) {
-            $("#class").prop("disabled", false);
-        }
-        if ($("#class").val()) {
-            $("#order").prop("disabled", false);
-        }
-        if ($("#order").val()) {
-            $("#family").prop("disabled", false);
-        }
-        if ($("#family").val()) {
-            $("#genus").prop("disabled", false);
-        }
-        if ($("#genus").val()) {
-            $("#species").prop("disabled", false);
-        }
-    });
+            // Opsional: Tambahkan whitelist (autocomplete)
+            var allTags = @json($allTags ?? []);
+            if (allTags.length) {
+                tagify.whitelist = allTags;
+            }
+
+            // Event Listener untuk penambahan tag
+            tagify.on('add', function(e) {
+                console.log('Tag added:', e.detail.data.value);
+            });
+
+            // Event Listener untuk penghapusan tag
+            tagify.on('remove', function(e) {
+                console.log('Tag removed:', e.detail.data.value);
+            });
 
 
-    $(document).ready(function() {
-        // Autocomplete for Kingdom
-        $("#kingdom").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "/api/kingdoms",
-                    dataType: "json",
-                    data: {
-                        query: request.term
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.name,
-                                value: item.id
-                            };
-                        }));
+        });
+
+        function handleDrop(event) {
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('[x-data]').__x.$data.previewUrl = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('[x-data]').__x.$data.previewUrl = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function imageUploader(existingImages) {
+            return {
+                images: existingImages.map(image => ({
+                    image_url: `{{ asset('storage/images/plants/${image.image_url}') }}`,
+                    preview: null
+                })),
+                handleDrop(event) {
+                    const files = event.dataTransfer.files;
+                    this.handleFiles(files);
+                },
+                handleFileSelect(event) {
+                    const files = event.target.files;
+                    this.handleFiles(files);
+                },
+                handleFiles(files) {
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.images.push({
+                                image_url: null,
+                                preview: e.target.result
+                            });
+                        };
+                        reader.readAsDataURL(file);
                     }
-                });
-            },
-            select: function(event, ui) {
-                $("#kingdom").val(ui.item.label);
-                $("#kingdom").data("selected-id", ui.item.value);
+                },
+                removeImage(index) {
+                    this.images.splice(index, 1);
+                }
+            };
+        }
+
+        $(document).ready(function() {
+            if ($("#kingdom").val()) {
                 $("#phylum").prop("disabled", false);
-                return false;
             }
-        });
-
-        // Autocomplete for Phylum
-        $("#phylum").autocomplete({
-            source: function(request, response) {
-                const kingdomId = $("#kingdom").data("selected-id");
-                if (!kingdomId) return;
-                $.ajax({
-                    url: `/api/phylums`,
-                    dataType: "json",
-                    data: {
-                        kingdom_id: kingdomId,
-                        query: request.term
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.name,
-                                value: item.id
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function(event, ui) {
-                $("#phylum").val(ui.item.label);
-                $("#phylum").data("selected-id", ui.item.value);
+            if ($("#phylum").val()) {
                 $("#class").prop("disabled", false);
-                return false;
             }
-        });
-
-        // Autocomplete for Class
-        $("#class").autocomplete({
-            source: function(request, response) {
-                const phylumId = $("#phylum").data("selected-id");
-                if (!phylumId) return;
-                $.ajax({
-                    url: `/api/classes`,
-                    dataType: "json",
-                    data: {
-                        phylum_id: phylumId,
-                        query: request.term
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.name,
-                                value: item.id
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function(event, ui) {
-                $("#class").val(ui.item.label);
-                $("#class").data("selected-id", ui.item.value);
+            if ($("#class").val()) {
                 $("#order").prop("disabled", false);
-                return false;
             }
-        });
-
-        // Autocomplete for Order
-        $("#order").autocomplete({
-            source: function(request, response) {
-                const classId = $("#class").data("selected-id");
-                if (!classId) return;
-                $.ajax({
-                    url: `/api/orders`,
-                    dataType: "json",
-                    data: {
-                        class_id: classId,
-                        query: request.term
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.name,
-                                value: item.id
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function(event, ui) {
-                $("#order").val(ui.item.label);
-                $("#order").data("selected-id", ui.item.value);
+            if ($("#order").val()) {
                 $("#family").prop("disabled", false);
-                return false;
             }
-        });
-
-        // Autocomplete for Family
-        $("#family").autocomplete({
-            source: function(request, response) {
-                const orderId = $("#order").data("selected-id");
-                if (!orderId) return;
-                $.ajax({
-                    url: `/api/families`,
-                    dataType: "json",
-                    data: {
-                        order_id: orderId,
-                        query: request.term
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.name,
-                                value: item.id
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function(event, ui) {
-                $("#family").val(ui.item.label);
-                $("#family").data("selected-id", ui.item.value);
+            if ($("#family").val()) {
                 $("#genus").prop("disabled", false);
-                return false;
             }
-        });
-
-        // Autocomplete for Genus
-        $("#genus").autocomplete({
-            source: function(request, response) {
-                const familyId = $("#family").data("selected-id");
-                if (!familyId) return;
-                $.ajax({
-                    url: `/api/genera`,
-                    dataType: "json",
-                    data: {
-                        family_id: familyId,
-                        query: request.term
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.name,
-                                value: item.id
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function(event, ui) {
-                $("#genus").val(ui.item.label);
-                $("#genus").data("selected-id", ui.item.value);
+            if ($("#genus").val()) {
                 $("#species").prop("disabled", false);
-                return false;
             }
         });
 
-        // Autocomplete for Species
-        $("#species").autocomplete({
-            source: function(request, response) {
-                const genusId = $("#genus").data("selected-id");
-                if (!genusId) return;
-                $.ajax({
-                    url: `/api/species`,
-                    dataType: "json",
-                    data: {
-                        genus_id: genusId,
-                        query: request.term
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.name,
-                                value: item.id
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function(event, ui) {
-                $("#species").val(ui.item.label);
-                $("#species").data("selected-id", ui.item.value);
-                return false;
-            }
+
+        $(document).ready(function() {
+            // Autocomplete for Kingdom
+            $("#kingdom").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "/api/kingdoms",
+                        dataType: "json",
+                        data: {
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#kingdom").val(ui.item.label);
+                    $("#kingdom").data("selected-id", ui.item.value);
+                    $("#phylum").prop("disabled", false);
+                    return false;
+                }
+            });
+
+            // Autocomplete for Phylum
+            $("#phylum").autocomplete({
+                source: function(request, response) {
+                    const kingdomId = $("#kingdom").data("selected-id");
+                    if (!kingdomId) return;
+                    $.ajax({
+                        url: `/api/phylums`,
+                        dataType: "json",
+                        data: {
+                            kingdom_id: kingdomId,
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#phylum").val(ui.item.label);
+                    $("#phylum").data("selected-id", ui.item.value);
+                    $("#class").prop("disabled", false);
+                    return false;
+                }
+            });
+
+            // Autocomplete for Class
+            $("#class").autocomplete({
+                source: function(request, response) {
+                    const phylumId = $("#phylum").data("selected-id");
+                    if (!phylumId) return;
+                    $.ajax({
+                        url: `/api/classes`,
+                        dataType: "json",
+                        data: {
+                            phylum_id: phylumId,
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#class").val(ui.item.label);
+                    $("#class").data("selected-id", ui.item.value);
+                    $("#order").prop("disabled", false);
+                    return false;
+                }
+            });
+
+            // Autocomplete for Order
+            $("#order").autocomplete({
+                source: function(request, response) {
+                    const classId = $("#class").data("selected-id");
+                    if (!classId) return;
+                    $.ajax({
+                        url: `/api/orders`,
+                        dataType: "json",
+                        data: {
+                            class_id: classId,
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#order").val(ui.item.label);
+                    $("#order").data("selected-id", ui.item.value);
+                    $("#family").prop("disabled", false);
+                    return false;
+                }
+            });
+
+            // Autocomplete for Family
+            $("#family").autocomplete({
+                source: function(request, response) {
+                    const orderId = $("#order").data("selected-id");
+                    if (!orderId) return;
+                    $.ajax({
+                        url: `/api/families`,
+                        dataType: "json",
+                        data: {
+                            order_id: orderId,
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#family").val(ui.item.label);
+                    $("#family").data("selected-id", ui.item.value);
+                    $("#genus").prop("disabled", false);
+                    return false;
+                }
+            });
+
+            // Autocomplete for Genus
+            $("#genus").autocomplete({
+                source: function(request, response) {
+                    const familyId = $("#family").data("selected-id");
+                    if (!familyId) return;
+                    $.ajax({
+                        url: `/api/genera`,
+                        dataType: "json",
+                        data: {
+                            family_id: familyId,
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#genus").val(ui.item.label);
+                    $("#genus").data("selected-id", ui.item.value);
+                    $("#species").prop("disabled", false);
+                    return false;
+                }
+            });
+
+            // Autocomplete for Species
+            $("#species").autocomplete({
+                source: function(request, response) {
+                    const genusId = $("#genus").data("selected-id");
+                    if (!genusId) return;
+                    $.ajax({
+                        url: `/api/species`,
+                        dataType: "json",
+                        data: {
+                            genus_id: genusId,
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#species").val(ui.item.label);
+                    $("#species").data("selected-id", ui.item.value);
+                    return false;
+                }
+            });
         });
-    });
-</script>
+    </script>
+@endpush

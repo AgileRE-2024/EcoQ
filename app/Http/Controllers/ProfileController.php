@@ -21,6 +21,8 @@ class ProfileController extends Controller
         } else if (Auth::user()->role == 'garden_owner') {
             $garden = Auth::user()->garden;
             return view('dashboard.profile.index', compact(['garden', 'user']));
+        } else {
+            return view('pages.profile.index', compact('user'));
         }
     }
     /**
@@ -33,8 +35,10 @@ class ProfileController extends Controller
             return view('dashboard.profile.edit', compact('user'));
         } else if (Auth::user()->role == 'garden_owner') {
             $garden = Auth::user()->garden;
+            return view('dashboard.profile.edit', compact(['garden', 'user']));
+        } else {
+            return view('pages.profile.edit', compact('user'));
         }
-        return view('dashboard.profile.edit', compact(['garden', 'user']));
     }
 
     /**

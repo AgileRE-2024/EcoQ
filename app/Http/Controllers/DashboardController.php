@@ -17,7 +17,6 @@ class DashboardController extends Controller
         } else if (Auth::user()->role == 'garden_owner') {
             return view('dashboard.garden_owner.index');
         }
-
-        return view('welcome');
+        return redirect()->route('welcome')->with('error', 'You are not authorized to access this page');
     }
 }

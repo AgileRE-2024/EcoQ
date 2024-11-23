@@ -179,7 +179,7 @@
     @endpush
 
     {{-- Main Container with proper spacing --}}
-    <div class="min-h-screen pt-32 pb-16">
+    <div class="min-h-screen pt-32">
         {{-- Decorative Leaves --}}
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
 
@@ -197,7 +197,7 @@
             </div>
         </div>
 
-        <div class="container mx-auto px-4 py-8">
+        <div class="container mx-auto px-4 pt-8">
             <div class="max-w-md mx-auto">
                 {{-- Login Card --}}
                 <div class="glass-effect p-8 rounded-3xl shadow-xl relative">

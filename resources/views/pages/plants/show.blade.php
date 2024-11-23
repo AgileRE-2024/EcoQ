@@ -34,33 +34,65 @@
         </style>
     @endpush
     <div class="min-h-screen bg-gradient-to-b from-green-100 to-white pt-16">
-        <div class="container mx-auto px-4 py-4">
-            <a href="{{ route('plants') }}"
-                class="inline-flex items-center space-x-2 px-4 py-2 bg-green-500 text-white rounded-lg 
-              hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 
-              transition-all duration-300 ease-in-out shadow-md hover:shadow-lg group">
-                <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-                <span>Back</span>
-            </a>
-        </div>
-
 
         <!-- Hero Section with Nature-Inspired Design -->
-        <div class="relative overflow-hidden bg-gradient-to-b from-green-50/50 via-white to-white pt-8">
-            <!-- Decorative Background Elements -->
+        <div class="relative overflow-hidden bg-gradient-to-b from-green-50/50 via-white to-white">
             <div class="absolute inset-0 pointer-events-none">
                 <div
-                    class="absolute top-0 left-0 w-64 h-64 bg-green-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob">
+                    class="absolute top-0 left-0 w-72 h-72 bg-green-100/60 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob">
                 </div>
                 <div
-                    class="absolute top-0 right-0 w-64 h-64 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000">
+                    class="absolute top-0 right-0 w-72 h-72 bg-emerald-100/60 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000">
                 </div>
                 <div
-                    class="absolute bottom-0 left-0 w-64 h-64 bg-teal-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000">
+                    class="absolute -bottom-32 left-20 w-72 h-72 bg-teal-100/60 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000">
                 </div>
+            </div>
+            <div class="container mx-auto px-4">
+                <nav class="pt-12">
+                    <div class="flex items-center justify-between">
+                        <!-- Enhanced Back Button -->
+                        <a href="{{ route('plants') }}"
+                            class="group flex items-center gap-3 px-5 py-2.5 bg-white/80 backdrop-blur-md rounded-xl
+                          border border-green-100 hover:border-green-200 shadow-sm hover:shadow-md
+                          transition-all duration-300 ease-in-out">
+                            <div
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-green-100/50 
+                                group-hover:bg-green-500 transition-colors duration-300">
+                                <svg class="w-5 h-5 text-green-600 group-hover:text-white transition-colors" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </div>
+                            <span class="text-green-800 font-medium group-hover:text-green-600 transition-colors">
+                                Back to Plants
+                            </span>
+                        </a>
+
+                        <!-- Optional: Add Right Side Elements -->
+                        <div class="flex items-center gap-4">
+                            <button
+                                class="p-2.5 text-green-600 hover:text-green-700 bg-white/80 backdrop-blur-md 
+                                 rounded-lg border border-green-100 hover:border-green-200 shadow-sm 
+                                 hover:shadow-md transition-all duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </button>
+                            <button
+                                class="p-2.5 text-green-600 hover:text-green-700 bg-white/80 backdrop-blur-md 
+                                 rounded-lg border border-green-100 hover:border-green-200 shadow-sm 
+                                 hover:shadow-md transition-all duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
             </div>
 
             <div class="container mx-auto px-4 py-8">
@@ -68,27 +100,38 @@
                     <!-- Enhanced Image Gallery with Improved Interactions -->
                     <div class="sticky top-24 space-y-6">
                         <div class="group relative">
+                            <!-- Main Plant Image with Hover Effects -->
                             <div
                                 class="overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:shadow-green-200/50">
-                                <!-- Main Image with Enhanced Hover Effects -->
                                 <div class="relative h-[600px] overflow-hidden">
                                     <img src="{{ $plant->image ? asset('storage/images/plants/' . $plant->image) : asset('assets/images/plant.jpeg') }}"
                                         alt="{{ $plant->name }}"
-                                        class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
+                                        class="w-full h-full object-cover transition-transform duration-700 transform group-hover:scale-105">
+
                                     <!-- Gradient Overlay -->
                                     <div
                                         class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                                     </div>
                                 </div>
 
-                                <!-- QR Code with Improved Positioning and Style -->
+                                <!-- QR Code Positioning and Styling -->
                                 @if ($plant->qr_image)
                                     <div
                                         class="absolute bottom-6 right-6 transform transition-all duration-500 group-hover:translate-y-0 translate-y-2 opacity-90 group-hover:opacity-100">
                                         <div
-                                            class="bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/20">
+                                            class="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/20 hover:shadow-lg transition-shadow duration-300">
                                             <img src="{{ asset('storage/' . $plant->qr_image) }}" alt="QR Code"
                                                 class="w-32 h-32 object-contain">
+                                            <a href="{{ route('download-qr', $plant->id) }}"
+                                                class="mt-3 flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 
+                        text-white rounded-lg transition-colors duration-300 text-sm font-medium shadow-md">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                                </svg>
+                                                Download QR
+                                            </a>
                                         </div>
                                     </div>
                                 @endif
@@ -97,24 +140,51 @@
 
                         <!-- Improved Thumbnail Gallery -->
                         @if ($plant->images && $plant->images->count() > 0)
-                            <div class="grid grid-cols-4 gap-4 px-2">
-                                @foreach ($plant->images as $image)
-                                    <div
-                                        class="group/thumb cursor-pointer relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
-                                        <div class="relative aspect-square">
-                                            <img src="{{ asset('storage/images/plants/' . $image->image_url) }}"
-                                                alt="Plant image"
-                                                class="w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-110">
-                                            <!-- Hover Overlay -->
-                                            <div
-                                                class="absolute inset-0 bg-green-900/10 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300">
+                            <div class="relative">
+                                <!-- Thumbnails Scroll Container -->
+                                <div class="overflow-x-auto pb-4 hide-scrollbar">
+                                    <div class="flex gap-4 min-w-full">
+                                        @foreach ($plant->images as $image)
+                                            <div class="group/thumb cursor-pointer relative flex-shrink-0">
+                                                <div
+                                                    class="relative w-32 h-32 overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300">
+                                                    <img src="{{ asset('storage/images/plants/' . $image->image_url) }}"
+                                                        alt="Plant image"
+                                                        class="w-full h-full object-cover transition-transform duration-500 transform group-hover/thumb:scale-110">
+                                                    <!-- Enhanced Hover Effect -->
+                                                    <div
+                                                        class="absolute inset-0 bg-gradient-to-t from-green-900/20 to-transparent opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300">
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-                                @endforeach
+                                </div>
+
+                                <!-- Scroll Indicators -->
+                                <div class="absolute -left-4 top-1/2 -translate-y-1/2">
+                                    <button class="p-2 rounded-full bg-white/80 shadow-lg hover:bg-white transition-colors">
+                                        <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="absolute -right-4 top-1/2 -translate-y-1/2">
+                                    <button class="p-2 rounded-full bg-white/80 shadow-lg hover:bg-white transition-colors">
+                                        <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         @endif
                     </div>
+
+
 
                     <!-- Enhanced Plant Information Section -->
                     <div class="space-y-8 relative">
@@ -141,50 +211,51 @@
                             </div>
 
                             <!-- Refined Classification Card -->
-                            @if ($plant->classification)
-                                <div
-                                    class="group bg-white border border-green-100 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
-                                    <!-- Decorative Background Pattern -->
-                                    <div class="absolute inset-0 opacity-[0.02] pointer-events-none"
-                                        style="background-image: url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627,25.6c0,0-20.8-21.6-42.667,0C11.96,25.6-8.84,47.2,12.627,47.2s41.6-21.6,41.6-21.6' style='fill:none;stroke:%2322c55e;stroke-width:2;stroke-opacity:0.2'/%3E%3C/svg%3E')">
-                                    </div>
 
-                                    <!-- Title Section with Icon -->
-                                    <div class="flex items-center gap-3 mb-8 border-b border-green-100 pb-4">
-                                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                        </svg>
-                                        <h2 class="text-2xl font-bold text-green-800">Taxonomic Classification</h2>
-                                    </div>
-
-                                    <!-- Classification Grid with Enhanced Visual Design -->
-                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                        @foreach (['Kingdom', 'Division', 'Class', 'Order', 'Family', 'Genus', 'Species'] as $taxon)
-                                            @if ($plant->classification->{strtolower($taxon)})
-                                                <div
-                                                    class="group/item bg-gradient-to-br from-green-50 to-emerald-50/50 p-4 rounded-xl border border-green-100/50 hover:shadow-md transition-all duration-300">
-                                                    <span
-                                                        class="block text-xs font-medium uppercase tracking-wider text-green-600 mb-1 group-hover/item:text-green-700 transition-colors">
-                                                        {{ $taxon }}
-                                                    </span>
-                                                    <p
-                                                        class="font-semibold text-green-900 group-hover/item:text-green-800 transition-colors">
-                                                        {{ $plant->classification->{strtolower($taxon)} }}
-                                                    </p>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
+                            <div
+                                class="group bg-white border border-green-100 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
+                                <!-- Decorative Background Pattern -->
+                                <div class="absolute inset-0 opacity-[0.02] pointer-events-none"
+                                    style="background-image: url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627,25.6c0,0-20.8-21.6-42.667,0C11.96,25.6-8.84,47.2,12.627,47.2s41.6-21.6,41.6-21.6' style='fill:none;stroke:%2322c55e;stroke-width:2;stroke-opacity:0.2'/%3E%3C/svg%3E')">
                                 </div>
-                            @endif
+
+                                <!-- Title Section with Icon -->
+                                <div class="flex items-center gap-3 mb-8 border-b border-green-100 pb-4">
+                                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                    </svg>
+                                    <h2 class="text-2xl font-bold text-green-800">Taxonomic Classification</h2>
+                                </div>
+
+                                <!-- Classification Grid with Enhanced Visual Design -->
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    @foreach (['kingdom', 'division', 'class', 'order', 'family', 'genus', 'species'] as $taxon)
+                                        @if (!empty($plant->{$taxon}) && !empty($plant->{$taxon}->name))
+                                            <div
+                                                class="group/item bg-gradient-to-br from-green-50 to-emerald-50/50 p-4 rounded-xl border border-green-100/50 hover:shadow-md transition-all duration-300">
+                                                <span
+                                                    class="block text-xs font-medium uppercase tracking-wider text-green-600 mb-1 group-hover/item:text-green-700 transition-colors">
+                                                    {{ ucfirst($taxon) }}
+                                                </span>
+                                                <p
+                                                    class="font-semibold text-green-900 group-hover/item:text-green-800 transition-colors">
+                                                    {{ $plant->{$taxon}->name }}
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                            </div>
 
                             <!-- Enhanced Description Card -->
                             <div
                                 class="mt-8 bg-white border border-green-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 relative overflow-hidden">
                                 <!-- Decorative Leaf Pattern -->
-                                <div class="absolute -right-16 -top-16 w-32 h-32 bg-green-50 rounded-full opacity-50"></div>
+                                <div class="absolute -right-16 -top-16 w-32 h-32 bg-green-50 rounded-full opacity-50">
+                                </div>
                                 <div class="absolute -right-12 -top-12 w-24 h-24 bg-emerald-50 rounded-full opacity-50">
                                 </div>
 
@@ -468,23 +539,31 @@
                 </div>
 
                 <!-- Related Plants Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @foreach ($relatedPlants as $relatedPlant)
-                        <a href="{{ route('plants.show', $relatedPlant->id) }}"
-                            class="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                            <div class="aspect-w-16 aspect-h-12 overflow-hidden">
-                                <img src="{{ $relatedPlant->image ? asset('storage/images/plants/' . $relatedPlant->image) : asset('assets/images/plant.jpeg') }}"
-                                    alt="{{ $relatedPlant->name }}"
-                                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-semibold text-green-800">{{ $relatedPlant->name }}</h3>
-                                <p class="text-sm text-gray-600">{{ $relatedPlant->scientific_name }}</p>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
+                @if ($relatedPlants->isEmpty())
+                    <div class="text-center py-6 text-gray-600">
+                        <p class="text-lg">No related plants found.</p>
+                        <p class="text-sm">Try exploring other plant categories or searching by different tags.</p>
+                    </div>
+                @else
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        @foreach ($relatedPlants as $relatedPlant)
+                            <a href="{{ route('plants.show', $relatedPlant->id) }}"
+                                class="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                                <div class="aspect-w-16 aspect-h-12 overflow-hidden">
+                                    <img src="{{ $relatedPlant->image ? asset('storage/images/plants/' . $relatedPlant->image) : asset('assets/images/plant.jpeg') }}"
+                                        alt="{{ $relatedPlant->name }}"
+                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-green-800">{{ $relatedPlant->name }}</h3>
+                                    <p class="text-sm text-gray-600">{{ $relatedPlant->scientific_name }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
+
     </div>
 @endsection

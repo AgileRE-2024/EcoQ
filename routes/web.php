@@ -6,9 +6,11 @@ use App\Http\Controllers\PlantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GardenController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TaxonomyController;
+use App\Models\Plant;
 
 Route::prefix('/api')->group(function () {
     Route::get('/kingdoms', [TaxonomyController::class, 'getKingdoms'])->name('taxonomy.kingdoms');
@@ -19,7 +21,7 @@ Route::prefix('/api')->group(function () {
     Route::get('/genera', [TaxonomyController::class, 'getGenera'])->name('taxonomy.genuses');
     Route::get('/species', [TaxonomyController::class, 'getSpecies'])->name('taxonomy.species');
 });
-Route::prefix('/api')->group(function () {
+Route::prefix('/taxonomy')->group(function () {
     Route::get('/kingdoms', [TaxonomyController::class, 'getKingdoms'])->name('taxonomy.kingdom');
     Route::get('/phylums', [TaxonomyController::class, 'getPhylums'])->name('taxonomy.phylum');
     Route::get('/classes', [TaxonomyController::class, 'getClasses'])->name('taxonomy.class');
@@ -29,11 +31,26 @@ Route::prefix('/api')->group(function () {
     Route::get('/species', [TaxonomyController::class, 'getSpecies'])->name('taxonomy.species');
 });
 
+Route::get('/pdf', function () {
+
+    $plant = Plant::find(1);
+    return view('pages.export-pdf', ['plant' => $plant]);
+});
+
+Route::get('/search', [PlantController::class, 'search'])->name('search');
+
+
+Route::middleware(['verified', 'auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile-user.index');
+});
+
 Route::get('/', [PageController::class, 'index'])->name('welcome');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/plants', [PageController::class, 'plants'])->name('plants');
 Route::get('/events', action: [PageController::class, 'indexEvents'])->name('indexEvents');
 Route::get('/gardens', action: [PageController::class, 'indexGardens'])->name('indexGardens');
 Route::get('/plants/{plant}', [PageController::class, 'showPlant'])->name('plant');
+Route::get('/download-qr/{plant}', [PageController::class, 'downloadQrCode'])->name('download-qr');
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

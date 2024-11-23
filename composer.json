@@ -6,8 +6,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-dompdf": "^3.0",
         "endroid/qr-code": "^6.0",
         "laravel/framework": "^11.9",
+        "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {

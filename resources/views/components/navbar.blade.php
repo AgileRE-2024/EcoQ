@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between">
         <!-- Logo Section -->
         <div class="flex items-center space-x-8">
-            <a href="/" class="flex items-center space-x-3 group">
+            <a href="{{ route('welcome') }}" class="flex items-center space-x-3 group">
                 <div class="relative">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="Logo EcoQ"
                         class="h-12 w-auto transform group-hover:scale-110 transition-all duration-500 ease-out">
@@ -16,28 +16,38 @@
                     EcoGarden
                 </span>
             </a>
-
-            <!-- Enhanced Search Bar -->
-            <div class="relative hidden sm:block group">
-                <input type="text" placeholder="Cari tanaman..."
-                    class="w-64 px-4 py-2.5 pl-11 rounded-full 
-                           bg-white/80 backdrop-blur-md
-                           border-2 border-green-100 
-                           focus:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-200 
-                           placeholder-green-400
-                           text-green-800 shadow-inner
-                           transition-all duration-500 ease-out
-                           group-hover:shadow-md
-                           focus:w-80" />
-                <div
-                    class="absolute left-3.5 top-1/2 transform -translate-y-1/2 transition-transform duration-300 group-hover:scale-110">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+            <form action="{{ route('search') }}" method="GET" class="relative group">
+                <div class="relative">
+                    <input type="text" name="keyword" placeholder="Cari tanaman..."
+                        class="w-64 px-4 py-2.5 pl-11 pr-10 rounded-full 
+                      bg-white/80 backdrop-blur-md
+                      border-2 border-green-100 
+                      focus:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-200 
+                      placeholder-green-400
+                      text-green-800 shadow-inner
+                      transition-all duration-500 ease-out
+                      focus:w-80" />
+                    <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <button type="submit"
+                        class="absolute inset-y-0 right-0 flex items-center px-3 rounded-r-full hover:bg-green-50 transition-colors duration-300">
+                        <span class="sr-only">Search</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
                 </div>
-            </div>
+                <div
+                    class="absolute inset-0 rounded-full bg-green-200 opacity-0 group-hover:opacity-10 group-focus-within:opacity-10 transition-opacity duration-300 -z-10">
+                </div>
+            </form>
         </div>
 
         <!-- Navigation Links -->
@@ -92,18 +102,35 @@
 
             <!-- Auth Buttons -->
             @if (Auth::check())
-                <a href="/dashboard" class="nav-item group">
-                    <div class="flex items-center space-x-2 py-2">
-                        <svg class="w-4 h-4 text-green-600 group-hover:scale-110 transition-transform duration-300"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                        <span
-                            class="font-medium tracking-wide text-green-800 group-hover:text-green-600">Dashboard</span>
-                    </div>
-                    <div class="h-0.5 w-0 group-hover:w-full bg-green-500 transition-all duration-300 ease-out"></div>
-                </a>
+                @if (Auth::user()->role == 'admin' or Auth::user()->role == 'garden_owner')
+                    <a href="{{ route('dashboard') }}" class="nav-item group">
+                        <div class="flex items-center space-x-2 py-2">
+                            <svg class="w-4 h-4 text-green-600 group-hover:scale-110 transition-transform duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                            <span
+                                class="font-medium tracking-wide text-green-800 group-hover:text-green-600">Dashboard</span>
+                        </div>
+                        <div class="h-0.5 w-0 group-hover:w-full bg-green-500 transition-all duration-300 ease-out">
+                        </div>
+                    </a>
+                @else
+                    <a href="{{ route('profile-user.index') }}" class="nav-item group">
+                        <div class="flex items-center space-x-2 py-2">
+                            <svg class="w-4 h-4 text-green-600 group-hover:scale-110 transition-transform duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span
+                                class="font-medium tracking-wide text-green-800 group-hover:text-green-600">Profile</span>
+                        </div>
+                        <div class="h-0.5 w-0 group-hover:w-full bg-green-500 transition-all duration-300 ease-out">
+                        </div>
+                    </a>
+                @endif
 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
@@ -123,7 +150,7 @@
                     </button>
                 </form>
             @else
-                <a href="/login"
+                <a href="{{ route('login') }}"
                     class="flex items-center space-x-2 px-5 py-2.5 rounded-full 
                            text-green-600 hover:text-white 
                            border-2 border-green-200 hover:border-green-500
@@ -153,7 +180,6 @@
         </div>
     </div>
 
-    <!-- Enhanced Mobile Menu -->
     <div id="mobile-menu"
         class="hidden md:hidden mt-4 p-4 bg-white/90 backdrop-blur-lg rounded-xl shadow-xl border border-green-100 mx-2">
         <div class="flex flex-col space-y-3">
@@ -187,13 +213,23 @@
             </a>
 
             @if (Auth::check())
-                <a href="/dashboard" class="mobile-link">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    <span>Dashboard</span>
-                </a>
+                @if (Auth::user()->role == 'admin' or Auth::user()->role == 'garden_owner')
+                    <a href="{{ route('dashboard') }}" class="mobile-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                @else
+                    <a href="{{ route('profile-user.index') }}" class="mobile-link">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Profile</span>
+                    </a>
+                @endif
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="mobile-link text-red-600 hover:bg-red-50 w-full">
@@ -205,7 +241,7 @@
                     </button>
                 </form>
             @else
-                <a href="/login" class="mobile-link text-green-600 hover:bg-green-50 font-semibold">
+                <a href="{{ route('login') }}" class="mobile-link text-green-600 hover:bg-green-50 font-semibold">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
