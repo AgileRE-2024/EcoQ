@@ -71,25 +71,34 @@
                         Find the perfect plant to bring life to your space
                     </p>
 
-                    {{-- Search and Filter Section with improved styling --}}
                     <div class="max-w-2xl mx-auto">
-                        {{-- Search Bar with enhanced design --}}
                         <div class="relative mb-6 group">
-                            <input type="text" placeholder="Search plants by name, category, or care level..."
-                                class="w-full px-6 py-4 rounded-full border-2 border-gray-200 
-                               focus:border-green-500 focus:ring-2 focus:ring-green-200 
-                               focus:ring-opacity-50 transition-all duration-300 
-                               pl-12 text-lg shadow-sm
-                               group-hover:border-green-300">
-                            <svg class="w-6 h-6 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2
-                              group-hover:text-green-500 transition-colors duration-300"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
+
+                            <form action="{{ route('search') }}" method="GET" class="relative">
+                                <div class="flex items-center">
+                                    <!-- Search Icon -->
+                                    <div class="absolute left-4">
+                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.5 9.5a7.5 7.5 0 010 10.5z" />
+                                        </svg>
+                                    </div>
+                                    <!-- Search Input -->
+                                    <input type="text" name="query"
+                                        placeholder="Search plants by name, category, or care level..."
+                                        class="w-full pl-12 pr-4 py-4 rounded-l-full border-2 border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 focus:ring-opacity-50 transition-all duration-300 text-lg shadow-sm group-hover:border-green-300">
+
+                                    <!-- Submit Button -->
+                                    <button type="submit"
+                                        class="px-6 py-4 bg-green-600 text-white rounded-r-full hover:bg-green-700 transform hover:scale-105 transition-all duration-300 shadow-sm">
+                                        Search
+                                    </button>
+                                </div>
+                            </form>
+
                         </div>
 
-                        {{-- Filter Pills with enhanced interaction --}}
                         <div class="flex flex-wrap justify-center gap-3 mb-8">
                             <button
                                 class="px-6 py-2 rounded-full bg-green-600 text-white 
@@ -129,52 +138,73 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach ($featuredPlants as $plant)
                             <div
-                                class="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
-                                {{-- Image Container --}}
-                                <div class="relative aspect-w-16 aspect-h-12 overflow-hidden">
-                                    <img src="{{ asset('assets/images/plant.jpeg') }}" alt="{{ $plant['name'] }}"
-                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
-                                    <div class="absolute top-4 left-4">
-                                        <span
-                                            class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-green-500 text-white shadow-lg">
-                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            Featured
-                                        </span>
+                                class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col">
+                                {{-- Plant Image Gallery --}}
+                                <div class="relative group">
+                                    <div class="h-64 overflow-hidden bg-gray-100"> <!-- Fixed height container -->
+                                        <img src="{{ $plant->image ? asset('storage/images/plants/' . $plant->image) : asset('assets/images/plant.jpeg') }}"
+                                            alt="{{ $plant->name }}"
+                                            class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500">
                                     </div>
                                 </div>
 
-                                {{-- Content --}}
-                                <div class="p-6">
-                                    <h3
-                                        class="text-xl font-semibold text-green-800 mb-3 group-hover:text-green-600 transition-colors">
-                                        {{ $plant['name'] }}
-                                    </h3>
-                                    <div class="flex flex-wrap gap-2 mb-4">
+                                {{-- Detailed Plant Information --}}
+                                <div class="p-6 flex flex-col flex-grow">
+                                    {{-- Title and Classification --}}
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h2 class="text-xl font-bold text-green-800 mb-2">{{ $plant->name }}</h2>
+                                            <p class="text-sm text-gray-500 italic">{{ $plant->scientific_name }}</p>
+                                        </div>
                                         <span
-                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800">
-                                            {{ $plant['category'] }}
-                                        </span>
-                                        <span
-                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-emerald-100 text-emerald-800">
-                                            {{ $plant['care'] }}
+                                            class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
+                                            {{ $plant->genus->name ?? 'Unclassified' }}
                                         </span>
                                     </div>
-                                    <p class="text-gray-600 mb-6 line-clamp-2">
-                                        {{ $plant['description'] }}
+
+                                    {{-- Taxonomic Information --}}
+                                    <div
+                                        class="grid grid-cols-3 gap-2 text-center border-t border-b py-3 border-gray-100 mb-4">
+                                        <div>
+                                            <span class="block text-xs text-gray-500">Kingdom</span>
+                                            <span class="font-semibold text-sm">{{ $plant->kingdom->name ?? '-' }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-xs text-gray-500">Family</span>
+                                            <span class="font-semibold text-sm">{{ $plant->family->name ?? '-' }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-xs text-gray-500">Species</span>
+                                            <span class="font-semibold text-sm">{{ $plant->species->name ?? '-' }}</span>
+                                        </div>
+                                    </div>
+
+                                    {{-- Description --}}
+                                    <p class="text-gray-600 mb-4 line-clamp-3 min-h-[60px]">
+                                        {{ Str::limit($plant->description, 150, '...') }}
                                     </p>
-                                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                                        <a href="#"
-                                            class="inline-flex items-center text-green-600 hover:text-green-700 font-medium transition-colors">
+
+                                    {{-- Quick Actions --}}
+                                    <div class="mt-auto flex justify-between items-center">
+                                        <a href="{{ route('plant', $plant) }}"
+                                            class="flex items-center text-green-600 hover:text-green-800 transition">
                                             View Details
-                                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 5l7 7-7 7" />
+                                                    d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                                             </svg>
                                         </a>
+                                        @if ($plant->qr_image)
+                                            <a href="{{ $plant->qr_image }}" target="_blank"
+                                                class="text-gray-500 hover:text-green-600">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                                                </svg>
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -240,7 +270,8 @@
                                     <a href="{{ route('plant', $plant) }}"
                                         class="flex items-center text-green-600 hover:text-green-800 transition">
                                         View Details
-                                        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                                         </svg>
@@ -248,7 +279,8 @@
                                     @if ($plant->qr_image)
                                         <a href="{{ $plant->qr_image }}" target="_blank"
                                             class="text-gray-500 hover:text-green-600">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                                             </svg>

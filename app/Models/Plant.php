@@ -42,7 +42,7 @@ class Plant extends Model
     /**
      * Get the comments for the plant.
      */
-    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }

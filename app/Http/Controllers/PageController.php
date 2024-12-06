@@ -52,29 +52,10 @@ class PageController extends Controller
 
     public function plants()
     {
-        $featuredPlants = [
-            [
-                'name' => 'Monstera Deliciosa',
-                'image' => '/placeholder.svg?height=300&width=400',
-                'category' => 'Indoor',
-                'care' => 'Medium Care',
-                'description' => 'Known for its unique leaf patterns and air-purifying qualities.',
-            ],
-            [
-                'name' => 'Lavender',
-                'image' => '/placeholder.svg?height=300&width=400',
-                'category' => 'Outdoor',
-                'care' => 'Low Maintenance',
-                'description' => 'Fragrant herb with beautiful purple flowers, perfect for gardens.',
-            ],
-            [
-                'name' => 'Echeveria Elegans',
-                'image' => '/placeholder.svg?height=300&width=400',
-                'category' => 'Succulent',
-                'care' => 'Low Care',
-                'description' => 'A beautiful rosette-shaped succulent with pale blue-green leaves.',
-            ],
-        ];
+        $featuredPlants = Plant::withCount('comments') // Hitung jumlah komentar
+            ->orderBy('comments_count', 'desc') // Urutkan berdasarkan jumlah komentar
+            ->take(5) // Ambil hanya 5 plant untuk "featured"
+            ->get();
         $plants = Plant::paginate(10);
         return view("pages.plants.index", compact("featuredPlants", "plants"));
     }

@@ -28,11 +28,11 @@
         }
 
         .header {
-            background: black;
+            background: linear-gradient(135deg, #166534 0%, #15803d 100%);
             /* Tailwind green-800 to green-700 */
             color: #fff;
             padding: 40px;
-            height: 25%;
+            height: 40%;
             position: relative;
         }
 
@@ -143,11 +143,6 @@
 
         .logo {
             height: 60px;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
         }
 
         @media print {
@@ -188,7 +183,7 @@
 
         <div class="content">
             <div class="app-info">
-                To learn more about this plant, scan the QR code using
+                To learn more about this plant, scan the QR code using<br>
                 <strong>MyTamanHusada App</strong> or visit<br>
                 <strong>tamanhusadagrahafamili.com</strong>
             </div>
@@ -200,14 +195,15 @@
 
             <div class="qr-section">
                 @if ($plant->qr_image)
-                    <img src="{{ public_path('storage/' . $plant->qr_image) }}" class="qr-code" alt="QR Code">
+                    <img src="{{ URL::asset('storage/' . $plant->qr_image) }}" class="qr-code" alt="QR Code">
                 @endif
             </div>
 
             <div class="logos">
-                <img src="{{ public_path('assets/images/airlangga.png') }}" class="logo" alt="UNAIR Logo">
-                <img src="{{ public_path('assets/images/intiland.jpg') }}" class="logo" alt="Intiland Logo">
-                <img src="{{ public_path('assets/images/taman_husada.jpg') }}" class="logo" alt="Taman Husada Logo">
+                <img src="C:\Bimo\UNAIR\Semester 5\Pembangunan Perangkat Lunak (Praktikum)\eco_q\public\assets\images\airlangga.png"
+                    class="logo" alt="UNAIR Logo">
+                <img src="{{ URL::asset('assets/images/intiland.jpg') }}" class="logo" alt="Intiland Logo">
+                <img src="{{ URL::asset('assets/images/taman_husada.jpg') }}" class="logo" alt="Taman Husada Logo">
             </div>
         </div>
     </div>
