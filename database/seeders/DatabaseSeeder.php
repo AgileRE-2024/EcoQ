@@ -32,5 +32,12 @@ class DatabaseSeeder extends Seeder
             'location' => 'Location',
             'description' => 'Description',
         ]);
+
+        $this->call([
+            KingdomSeeder::class,
+            PhylumSeeder::class,
+            ClassSeeder::class,
+            OrderSeeder::class,
+        ]);
     }
 }

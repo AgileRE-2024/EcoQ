@@ -122,7 +122,6 @@ class OrderSeeder extends Seeder
             ],
             'Peronosporomycetes' => [
                 ['name' => 'Peronosporaceae', 'description' => 'Water molds affecting plants.'],
-                ['name' => 'Albugonaceae', 'description' => 'Water molds including Albugo species.'],
                 ['name' => 'Saprolegnaceae', 'description' => 'Includes water molds affecting fish.'],
             ],
             'Saprolegniales' => [
@@ -137,12 +136,9 @@ class OrderSeeder extends Seeder
             ],
             'Prymnesiophyceae' => [
                 ['name' => 'Coccolithophoraceae', 'description' => 'Marine algae with calcareous plates.'],
-                ['name' => 'Isochrysidaceae', 'description' => 'Marine algae found in oceans.'],
-                ['name' => 'Prymnesiaceae', 'description' => 'Golden algae.'],
             ],
             'Isochrysidales' => [
-                ['name' => 'Isochrysidaceae', 'description' => 'Golden algae species found in oceans.'],
-                ['name' => 'Coccolithophoraceae', 'description' => 'Algae with calcareous plates in the ocean.'],
+                ['name' => 'Isochrysidaceae', 'description' => 'Marine algae found in oceans.'],
                 ['name' => 'Prymnesiaceae', 'description' => 'Species of golden algae.'],
             ],
             'Eustigmatophyceae' => [
