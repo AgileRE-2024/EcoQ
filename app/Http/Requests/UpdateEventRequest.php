@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateEventRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateEventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::user()->role == 'garden_owner';
     }
 
     /**
@@ -23,6 +24,14 @@ class UpdateEventRequest extends FormRequest
     {
         return [
             //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'date' => 'required|date',
+            'time' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'garden_id' => 'required|exists:gardens,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }
