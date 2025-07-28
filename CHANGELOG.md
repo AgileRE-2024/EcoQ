@@ -1,6 +1,8 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v11.3.1...11.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/3.5.2...master)
+
+## [3.5.2](https://github.com/laravel/laravel/compare/v11.3.1...3.5.2) - 2024-12-20
 
 ## [v11.3.1](https://github.com/laravel/laravel/compare/v11.3.0...v11.3.1) - 2024-10-15
 
